@@ -1,0 +1,10 @@
+C:\Dev\Tenkai\SharpSpec\ClassLibrary1\ClassLibrary1\obj\Debug\CSpec.csprojResolveAssemblyReference.cache
+C:\Dev\Tenkai\SharpSpec\ClassLibrary1\ClassLibrary1\bin\Debug\CSpec.dll
+C:\Dev\Tenkai\SharpSpec\ClassLibrary1\ClassLibrary1\bin\Debug\CSpec.pdb
+C:\Dev\Tenkai\SharpSpec\ClassLibrary1\ClassLibrary1\bin\Debug\HtmlAgilityPack.dll
+C:\Dev\Tenkai\SharpSpec\ClassLibrary1\ClassLibrary1\bin\Debug\nunit.framework.dll
+C:\Dev\Tenkai\SharpSpec\ClassLibrary1\ClassLibrary1\bin\Debug\HtmlAgilityPack.pdb
+C:\Dev\Tenkai\SharpSpec\ClassLibrary1\ClassLibrary1\bin\Debug\HtmlAgilityPack.xml
+C:\Dev\Tenkai\SharpSpec\ClassLibrary1\ClassLibrary1\bin\Debug\nunit.framework.xml
+C:\Dev\Tenkai\SharpSpec\ClassLibrary1\ClassLibrary1\obj\Debug\CSpec.dll
+C:\Dev\Tenkai\SharpSpec\ClassLibrary1\ClassLibrary1\obj\Debug\CSpec.pdb
