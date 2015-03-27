@@ -4,7 +4,6 @@ C:\Dev\Tenkai\SharpSpec\ClassLibrary1\Cspec.Tests\bin\Debug\CSpec.dll
 C:\Dev\Tenkai\SharpSpec\ClassLibrary1\Cspec.Tests\bin\Debug\nunit.framework.dll
 C:\Dev\Tenkai\SharpSpec\ClassLibrary1\Cspec.Tests\bin\Debug\HtmlAgilityPack.dll
 C:\Dev\Tenkai\SharpSpec\ClassLibrary1\Cspec.Tests\bin\Debug\CSpec.pdb
-C:\Dev\Tenkai\SharpSpec\ClassLibrary1\Cspec.Tests\bin\Debug\nunit.framework.xml
 C:\Dev\Tenkai\SharpSpec\ClassLibrary1\Cspec.Tests\bin\Debug\HtmlAgilityPack.pdb
 C:\Dev\Tenkai\SharpSpec\ClassLibrary1\Cspec.Tests\bin\Debug\HtmlAgilityPack.xml
 C:\Dev\Tenkai\SharpSpec\ClassLibrary1\Cspec.Tests\obj\Debug\Cspec.Tests.csprojResolveAssemblyReference.cache
