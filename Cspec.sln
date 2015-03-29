@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cspec.Tests", "Cspec.Tests\Cspec.Tests.csproj", "{E9F674BE-FF0D-4BFC-A7B2-214C36625EE3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{53DC633F-279A-4052-8FDC-F56856A8E8F0}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cspec", "Cspec\Cspec.csproj", "{EC7C7D71-1C21-470B-93B9-0B44D0F20A77}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E9F674BE-FF0D-4BFC-A7B2-214C36625EE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9F674BE-FF0D-4BFC-A7B2-214C36625EE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9F674BE-FF0D-4BFC-A7B2-214C36625EE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9F674BE-FF0D-4BFC-A7B2-214C36625EE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC7C7D71-1C21-470B-93B9-0B44D0F20A77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC7C7D71-1C21-470B-93B9-0B44D0F20A77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC7C7D71-1C21-470B-93B9-0B44D0F20A77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC7C7D71-1C21-470B-93B9-0B44D0F20A77}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

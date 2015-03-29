@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Andy Davis</authors>
+    <owners>Andy Davis</owners>
+    <projectUrl>https://github.com/majikandy/cspec</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>An acceptance test driven development framework where C# is a first class citizen. It generates Gherkin and a report rather than that being the starting point.</description>
+    <releaseNotes>First version</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>tenkai</tags>
+  </metadata>
+</package>
