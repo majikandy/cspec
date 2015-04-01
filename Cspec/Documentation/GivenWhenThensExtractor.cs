@@ -1,5 +1,6 @@
 namespace Cspec.Documentation
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -15,52 +16,59 @@ namespace Cspec.Documentation
             this.featuresConfig = featuresConfig;
         }
 
-        public IEnumerable<string> GetGivenWhenThens(string methodNameContainingGivenWhenThens, string featureClassName)
+        public IEnumerable<string> GetGivenWhenThens(string methodNameContainingGivenWhenThens, IEnumerable<Type> allDerivationsOfFeature)
         {
-            var featureCs = this.GetFeatureCsFilePath(featureClassName);
+            var featureCsFiles = this.GetCsFilePaths(allDerivationsOfFeature);
 
-            var featureFileSourcecodeLines = File.ReadAllLines(featureCs);
-            var givenWhenThens = new List<string>();
-            var methodFound = false;
-            foreach (var line in featureFileSourcecodeLines)
+            foreach (var featureCs in featureCsFiles)
             {
-                if (!methodFound && !line.Contains(methodNameContainingGivenWhenThens))
+                var featureFileSourcecodeLines = File.ReadAllLines(featureCs);
+                var givenWhenThens = new List<string>();
+                var methodFound = false;
+                foreach (var line in featureFileSourcecodeLines)
                 {
-                    continue;
+                    if (!methodFound && !line.Contains(methodNameContainingGivenWhenThens))
+                    {
+                        continue;
+                    }
+                    methodFound = true;
+                    if (line.Trim() == "}")
+                    {
+                        break;
+                    }
+                    if (line.Contains(methodNameContainingGivenWhenThens) || line.Trim() == "{")
+                    {
+                        continue;
+                    }
+                    var stepName = line.Trim().Replace("this.", "").Replace("_", " ").Replace("();", string.Empty);
+                    if (stepName.EndsWith(";"))
+                    {
+                        stepName = stepName.Substring(0, stepName.Length - 1);
+                    }
+                    givenWhenThens.Add(stepName);
                 }
-                methodFound = true;
-                if (line.Trim() == "}")
+                if (methodFound)
                 {
-                    break;
+                    return givenWhenThens;
                 }
-                if (line.Contains(methodNameContainingGivenWhenThens) || line.Trim() == "{")
-                {
-                    continue;
-                }
-                var stepName = line.Trim().Replace("this.", "").Replace("_", " ").Replace("();", string.Empty);
-                if (stepName.EndsWith(";"))
-                {
-                    stepName = stepName.Substring(0, stepName.Length - 1);
-                }
-                givenWhenThens.Add(stepName);
             }
-            return givenWhenThens;
+            throw new SpecException(
+                "{0} wasn't found in any of the features source files, check that the files inherit from the <FeatureName>Feature class and are in files by the same name as their class names");
         }
 
-        private string GetFeatureCsFilePath(string featureClassName)
+        private IEnumerable<string> GetCsFilePaths(IEnumerable<Type> derivationsClassNames)
         {
             var featureFilesRootPath = this.featuresConfig.FeatureFilesRootPath ?? @"..\..\Features";
 
-            var featureCs =
-                Directory.GetFiles(featureFilesRootPath, featureClassName + ".cs", SearchOption.AllDirectories)
-                    .SingleOrDefault();
+            var sourceFiles = derivationsClassNames.Select(x => Directory.GetFiles(featureFilesRootPath, x.Name + ".cs", SearchOption.AllDirectories)
+                    .SingleOrDefault());
 
-            if (featureCs == null)
+            if (sourceFiles.Any(x => x == null))
             {
-                throw new SpecException(@"Features not found at '{0}'. Ensure all features are located within a \Features\ folder at the root of the test project, or override this setting by supplying the following app setting for the project <add key='featureFilesRootPath' value='path_here' />"
+                throw new SpecException(@"Features not found at '{0}'. Ensure all features are located within a \Features\ folder at the root of the test project, or override this setting by supplying the following app setting for the project <add key='featureFilesRootPath' value='path_here' />. Also check that the scenario classes inherit from the <FeatureName>Feature.cs marker class and they themselves are in file names by the same name as the class name.. eg LoginTests inside LoginTests.cs inheriting from LoginFeature (where LoginFeature.cs has the In_order_to, As_a, I_want in it)"
                     .FormatWith(featureFilesRootPath));
             }
-            return featureCs;
+            return sourceFiles;
         }
     }
 }

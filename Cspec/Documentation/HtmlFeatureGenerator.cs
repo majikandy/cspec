@@ -1,7 +1,9 @@
 namespace Cspec.Documentation
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Web.UI;
 
     using HtmlAgilityPack;
 
@@ -13,32 +15,43 @@ namespace Cspec.Documentation
         public string BuildFeatureDocumentation(IEnumerable<FeatureInfo> features)
         {
             this.htmlDoc = new HtmlDocument();
+            var stringWriter = new StringWriter();
+            var writer = new HtmlTextWriter(stringWriter);
+            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "container");
+            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "feature well");
 
-            this.br = this.htmlDoc.CreateElement("br");
-            var bootstrapCss = HtmlNode.CreateNode(@"<link rel='stylesheet' type='text/css' href='bootstrap.min.css' />");
-            var featuresDiv = this.htmlDoc.CreateElementWithAttribute("div", "class", "features");
+            //this.br = this.htmlDoc.CreateElement("br");
+            //var bootstrapCss = HtmlNode.CreateNode(@"<link rel='stylesheet' type='text/css' href='bootstrap.min.css' />");
+            //var featuresDiv = this.htmlDoc.CreateElementWithAttribute("div", "class", "features");
 
             foreach (var feature in features)
             {
-                featuresDiv.AppendChild(this.BuildFeatureDiv(feature));
+                writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                writer.AddAttribute(HtmlTextWriterAttribute.Class, "feature");
+                this.BuildFeatureDiv(feature, writer);
             }
 
             var body = this.htmlDoc.CreateElementWithAttribute("div", "class", "container");
-            body.AppendChild(bootstrapCss);
-            body.AppendChild(featuresDiv);
+            //body.AppendChild(bootstrapCss);
+            //body.AppendChild(featuresDiv);
+            return stringWriter.ToString();
             return body.OuterHtml;
         }
 
-        private HtmlNode BuildFeatureDiv(FeatureInfo featureInfo)
+        private void BuildFeatureDiv(FeatureInfo featureInfo, HtmlTextWriter writer)
         {
-            var featureDiv = this.htmlDoc.CreateElementWithAttribute("div", "class", "feature well");
-            var featureName = this.htmlDoc.CreateElementWithText("h2", featureInfo.Name.Replace("Feature", string.Empty));
+            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "feature well");
+            writer.RenderBeginTag(HtmlTextWriterTag.H2);
+            writer.Write(featureInfo.Name.Replace("Feature", string.Empty));
+            writer.RenderEndTag();
 
-            featureDiv.AppendChild(featureName);
-            featureDiv.AppendChild(this.BuildFeatureDesciption(featureInfo));
-            featureDiv.AppendChild(this.BuildCriteriaDiv(featureInfo));
-            featureDiv.AppendChild(this.BuildImpendingCriteria(featureInfo));
-            return featureDiv;
+            //featureDiv.AppendChild(this.BuildFeatureDesciption(featureInfo));
+            //featureDiv.AppendChild(this.BuildCriteriaDiv(featureInfo));
+            //featureDiv.AppendChild(this.BuildImpendingCriteria(featureInfo));
+            //return featureDiv;
         }
 
         private HtmlNode BuildFeatureDesciption(FeatureInfo featureInfo)

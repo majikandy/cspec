@@ -18,7 +18,9 @@ namespace Cspec.Documentation
 
         public IEnumerable<Scenario> GetScenarios(IEnumerable<Type> allDerivationsOfFeature, Type featureType)
         {
-            return allDerivationsOfFeature
+            var derivationsOfFeature = allDerivationsOfFeature.ToList();
+
+            return derivationsOfFeature
                 .SelectMany(t => t.GetMethods())
                 .Where(m => Attribute.IsDefined(m, typeof(TestShowingAttribute)))
                 .Select(theMethod => new { TheAttribute = this.GetTestShowingAttribute(theMethod), TheMethod = theMethod })
@@ -26,7 +28,7 @@ namespace Cspec.Documentation
                         new Scenario(
                             name: x.TheAttribute.Functionality, 
                             testMethodName: x.TheMethod.Name, 
-                            givenWhenThens: this.givenWhenThensExtractor.GetGivenWhenThens(x.TheMethod.Name, featureType.Name)));
+                            givenWhenThens: this.givenWhenThensExtractor.GetGivenWhenThens(x.TheMethod.Name, derivationsOfFeature)));
         }
 
         private TestShowingAttribute GetTestShowingAttribute(MethodInfo x)
