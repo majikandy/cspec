@@ -53,6 +53,7 @@
     <Compile Include="Documentation\FeatureFilePathProvider.cs" />
     <Compile Include="Documentation\GherkinFeatureGenerator.cs" />
     <Compile Include="Documentation\GivenWhenThensExtractor.cs" />
+    <Compile Include="Documentation\HtmlTextWriterExtensions.cs" />
     <Compile Include="Documentation\IExtractFeatureDescription.cs" />
     <Compile Include="Documentation\IExtractGivenWhenThens.cs" />
     <Compile Include="Documentation\IExtractScenarios.cs" />

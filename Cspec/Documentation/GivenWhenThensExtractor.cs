@@ -66,7 +66,7 @@ namespace Cspec.Documentation
             if (sourceFiles.Any(x => x == null))
             {
                 throw new SpecException(@"Features not found at '{0}'. Ensure all features are located within a \Features\ folder at the root of the test project, or override this setting by supplying the following app setting for the project <add key='featureFilesRootPath' value='path_here' />. Also check that the scenario classes inherit from the <FeatureName>Feature.cs marker class and they themselves are in file names by the same name as the class name.. eg LoginTests inside LoginTests.cs inheriting from LoginFeature (where LoginFeature.cs has the In_order_to, As_a, I_want in it)"
-                    .FormatWith(featureFilesRootPath));
+                    .With(featureFilesRootPath));
             }
             return sourceFiles;
         }

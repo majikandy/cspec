@@ -13,7 +13,7 @@ namespace Cspec.Documentation
 
             foreach (var featureInfo in features)
             {
-                stringBuilder.AppendLine("Feature: {0}".FormatWith(featureInfo.Name));
+                stringBuilder.AppendLine("Feature: {0}".With(featureInfo.Name));
                 stringBuilder.AppendLine();
                 foreach (var line in featureInfo.AcceptanceDescription)
                 {
@@ -23,10 +23,10 @@ namespace Cspec.Documentation
 
                 foreach (var scenario in featureInfo.Scenarios)
                 {
-                    stringBuilder.AppendLine("Scenario: {0}".FormatWith(scenario.TestMethodName.Replace("_", " ")));
+                    stringBuilder.AppendLine("Scenario: {0}".With(scenario.TestMethodName.Replace("_", " ")));
                     foreach (var step in scenario.GivenWhenThens)
                     {
-                        stringBuilder.AppendLine("    {0}".FormatWith(step));
+                        stringBuilder.AppendLine("    {0}".With(step));
                     }
                     stringBuilder.AppendLine();
                 }
@@ -34,7 +34,7 @@ namespace Cspec.Documentation
                 foreach (var pendingScenario in featureInfo.PendingScenarios)
                 {
                     stringBuilder.AppendLine("@ignore @pending");
-                    stringBuilder.AppendLine("Scenario: {0}".FormatWith(pendingScenario));
+                    stringBuilder.AppendLine("Scenario: {0}".With(pendingScenario));
                     stringBuilder.AppendLine();
                 }
             }

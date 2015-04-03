@@ -10,7 +10,7 @@ namespace Cspec.Tests.Features
 
     using NUnit.Framework;
 
-    public class SimpleExtractOfInfoFromItselfTestsss : GenerateDocumentationFeature
+    public class SimpleExtractOfInfoFromItselfTests : GenerateDocumentationFeature
     {
         private Assembly assembly;
         private IEnumerable<FeatureInfo> extractedFeatures;
@@ -114,7 +114,7 @@ Scenario: another pending scenario
         {
             var expectedHtml = @"
 <div class=""container"">
-    <link rel='stylesheet' type='text/css' href='bootstrap.min.css'>
+    <link rel=""stylesheet"" type=""text/css"" href=""bootstrap.min.css"" />
     <div class=""features"">
         <div class=""feature well"">
             <h2>GenerateDocumentation</h2>
@@ -125,27 +125,31 @@ Scenario: another pending scenario
             </div>
             <div class=""criteria text-success"">
                 <h4>Current</h4>
-                <div class=""criteria"">-it builds the FeaturesInfo from the attributed source code</div>
-                <div class=""test-method"">-->should build from attributed test code</div>
-                <div class=""givenWhenThens"">
-                    <div class=""step"">---->given current assembly</div>
-                    <div class=""step"">---->when extracting features</div>
-                    <div class=""step"">---->then I should see a representation of this feature</div>
-                    <div class=""step"">---->then I should be able to produce this feature in gherkin</div>
-                    <div class=""step"">---->then I should be able to produce this feature in html</div>
-                </div>
-                <div class=""test-method"">-->should show you can have multiple tests per scenario</div>
-                <div class=""givenWhenThens"">
-                    <div class=""step"">---->when without a given and a param of(3)</div>
-                    <div class=""step"">---->then only exists to check docuementation extraction works</div>
+                <div class=""criterion"">
+                    <div class=""criterion-description"">-it builds the FeaturesInfo from the attributed source code</div>
+                    <div class=""scenario"">
+                        <div class=""test-method-name"">--> should build from attributed test code</div>
+                        <div class=""givenWhenThens"">
+                            <div class=""step"">----> given current assembly</div>
+                            <div class=""step"">----> when extracting features</div>
+                            <div class=""step"">----> then I should see a representation of this feature</div>
+                            <div class=""step"">----> then I should be able to produce this feature in gherkin</div>
+                            <div class=""step"">----> then I should be able to produce this feature in html</div>
+                        </div>
+                    </div>
+                    <div class=""scenario"">
+                        <div class=""test-method-name"">--> should show you can have multiple tests per scenario</div>
+                        <div class=""givenWhenThens"">
+                            <div class=""step"">----> when without a given and a param of(3)</div>
+                            <div class=""step"">----> then only exists to check docuementation extraction works</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class=""impending-criteria text-warning bg-warning"">
                 <h4>Pending:</h4>
-                <span class=""criteria"">a pending scenario</span>
-                <br>
-                <span class=""criteria"">another pending scenario</span>
-                <br>
+                <div class=""criteria"">a pending scenario</div>
+                <div class=""criteria"">another pending scenario</div>
             </div>
         </div>
     </div>
