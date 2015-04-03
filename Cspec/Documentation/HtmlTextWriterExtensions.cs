@@ -28,6 +28,11 @@ namespace Cspec.Documentation
             writer.Write(tagText);
         }
 
+        public static void OpenDiv(this HtmlTextWriter writer, string classAttributeText)
+        {
+            writer.OpenTag(HtmlTextWriterTag.Div, string.Empty, classAttributeText);
+        }
+
         public static void CloseTag(this HtmlTextWriter writer)
         {
             writer.RenderEndTag();
@@ -41,5 +46,7 @@ namespace Cspec.Documentation
             writer.RenderBeginTag(HtmlTextWriterTag.Link);
             writer.RenderEndTag();
         }
+
+       
     }
 }

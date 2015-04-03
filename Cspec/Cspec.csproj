@@ -65,7 +65,6 @@
     <Compile Include="Documentation\FeatureInfo.cs" />
     <Compile Include="Documentation\FeatureExtractor.cs" />
     <Compile Include="Documentation\HtmlFeatureGenerator.cs" />
-    <Compile Include="Documentation\HtmlDocumentExtensions.cs" />
     <Compile Include="Documentation\IAcceptanceAttribute.cs" />
     <Compile Include="Framework\FeatureAttribute.cs" />
     <Compile Include="Features\Example\ExampleFeature.cs" />

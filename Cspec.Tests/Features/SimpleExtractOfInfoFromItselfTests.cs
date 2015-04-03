@@ -72,6 +72,8 @@ namespace Cspec.Tests.Features
             Assert.That(featureInfo.Scenarios.First().GivenWhenThens.First(), Is.EqualTo("given current assembly"));
             Assert.That(featureInfo.Scenarios.First().GivenWhenThens.Skip(1).First(), Is.EqualTo("when extracting features"));
             Assert.That(featureInfo.Scenarios.First().GivenWhenThens.Skip(2).First(), Is.EqualTo("then I should see a representation of this feature"));
+            Assert.That(featureInfo.Scenarios.First().GivenWhenThens.Skip(3).First(), Is.EqualTo("then I should be able to produce this feature in gherkin"));
+            Assert.That(featureInfo.Scenarios.First().GivenWhenThens.Skip(4).First(), Is.EqualTo("then I should be able to produce this feature in html"));
 
             Assert.That(featureInfo.Scenarios.Skip(1).First().Name, Is.EqualTo("it builds the FeaturesInfo from the attributed source code"));
             Assert.That(featureInfo.Scenarios.Skip(1).First().TestMethodName, Is.EqualTo("should_show_you_can_have_multiple_tests_per_scenario"));
