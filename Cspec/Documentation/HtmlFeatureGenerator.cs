@@ -1,107 +1,140 @@
-namespace Cspec.Documentation
+namespace Cspec.Documentation 
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Web.UI;
 
-    using HtmlAgilityPack;
+    using Cspec.Common;
 
     public class HtmlFeatureGenerator : IGenerateFeatures
     {
-        private HtmlNode br;
-        private HtmlDocument htmlDoc;
-
         public string BuildFeatureDocumentation(IEnumerable<FeatureInfo> features)
         {
-            this.htmlDoc = new HtmlDocument();
+            var stringWriter = new StringWriter();
+            var writer = new HtmlTextWriter(stringWriter);
 
-            this.br = this.htmlDoc.CreateElement("br");
-            var bootstrapCss = HtmlNode.CreateNode(@"<link rel='stylesheet' type='text/css' href='bootstrap.min.css' />");
-            var featuresDiv = this.htmlDoc.CreateElementWithAttribute("div", "class", "features");
+            writer.OpenTag(HtmlTextWriterTag.Div, string.Empty, "container");
+
+            writer.WriteStylesheet("bootstrap.min.css");
+            WriteFeatures(writer, features);
+
+            writer.CloseTag();
+
+            return stringWriter.ToString().TrimWhitespaceWithinHtml();
+        }
+
+        private void WriteFeatures(HtmlTextWriter writer, IEnumerable<FeatureInfo> features)
+        {
+            writer.OpenTag(HtmlTextWriterTag.Div, string.Empty, "features");
 
             foreach (var feature in features)
             {
-                featuresDiv.AppendChild(this.BuildFeatureDiv(feature));
+                this.WriteFeatureDiv(writer, feature);
             }
 
-            var body = this.htmlDoc.CreateElementWithAttribute("div", "class", "container");
-            body.AppendChild(bootstrapCss);
-            body.AppendChild(featuresDiv);
-            return body.OuterHtml;
+            writer.CloseTag();
         }
 
-        private HtmlNode BuildFeatureDiv(FeatureInfo featureInfo)
+        private void WriteFeatureDiv(HtmlTextWriter writer, FeatureInfo featureInfo)
         {
-            var featureDiv = this.htmlDoc.CreateElementWithAttribute("div", "class", "feature well");
-            var featureName = this.htmlDoc.CreateElementWithText("h2", featureInfo.Name.Replace("Feature", string.Empty));
+            writer.OpenTag(HtmlTextWriterTag.Div, string.Empty, "feature well");
 
-            featureDiv.AppendChild(featureName);
-            featureDiv.AppendChild(this.BuildFeatureDesciption(featureInfo));
-            featureDiv.AppendChild(this.BuildCriteriaDiv(featureInfo));
-            featureDiv.AppendChild(this.BuildImpendingCriteria(featureInfo));
-            return featureDiv;
+            writer.WriteTag(HtmlTextWriterTag.H2, featureInfo.Name.Replace("Feature", string.Empty));
+
+            this.BuildFeatureDesciption(featureInfo, writer);
+            this.BuildCriteriaDiv(writer, featureInfo.Scenarios.GroupBy(x => x.Name));
+
+            this.WritePendingCriteria(writer, featureInfo, featureInfo.PendingScenarios);
+            
+            writer.CloseTag();
         }
 
-        private HtmlNode BuildFeatureDesciption(FeatureInfo featureInfo)
+        private void BuildFeatureDesciption(FeatureInfo featureInfo, HtmlTextWriter writer)
         {
-            var descriptionDiv = this.htmlDoc.CreateElementWithAttribute("div", "class", "description well");
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "description well");
+            writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
-            featureInfo.AcceptanceDescription
-                .Select(x => this.htmlDoc.CreateElementWithText("div", x))
-                .ToList().ForEach(d => descriptionDiv.AppendChild(d));
-
-            return descriptionDiv;
-        }
-
-        private HtmlNode BuildCriteriaDiv(FeatureInfo featureInfo)
-        {
-            var featuringDiv = this.htmlDoc.CreateElementWithAttribute("div", "class", "criteria text-success");
-            featuringDiv.AppendChild(this.htmlDoc.CreateElementWithText("h4", "Current"));
-
-            foreach (var criteria in featureInfo.Scenarios.GroupBy(x => x.Name))
+            foreach (var line in featureInfo.AcceptanceDescription)
             {
-                var criteriaSpan = this.htmlDoc.CreateElementWithAttributeAndText("div", "class", "criteria", "-" + criteria.Key);
-                this.AppendChildListToNode(featuringDiv, criteriaSpan);
-                foreach (var criterion in criteria)
-                {
-                    var criteriaTestMethodSpan = this.htmlDoc.CreateElementWithAttributeAndText("div", "class", "test-method", "-->" + criterion.TestMethodName.Replace("_", " "));
-                    var givenWhenThensDiv = this.htmlDoc.CreateElementWithAttribute("div", "class", "givenWhenThens");
-                    foreach (var step in criterion.GivenWhenThens)
-                    {
-                        var stepDiv = this.htmlDoc.CreateElementWithAttributeAndText("div", "class", "step", "---->" + step);
-                        givenWhenThensDiv.AppendChild(stepDiv);
-                    }
-                    this.AppendChildListToNode(featuringDiv, criteriaTestMethodSpan);
-                    featuringDiv.AppendChild(givenWhenThensDiv);
-                }
+                writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                writer.Write(line.Trim());
+                writer.RenderEndTag();
             }
-
-            return featuringDiv;
+            writer.RenderEndTag();
         }
 
-        private HtmlNode BuildImpendingCriteria(FeatureInfo featureInfo)
+        private void BuildCriteriaDiv(HtmlTextWriter writer, IEnumerable<IGrouping<string, Scenario>> criteria)
         {
-            var impendingCriteriaDiv = this.htmlDoc.CreateElementWithAttribute("div", "class", "impending-criteria text-warning bg-warning");
+            writer.OpenTag(HtmlTextWriterTag.Div, string.Empty, "criteria text-success");
+            writer.WriteTag(HtmlTextWriterTag.H4, "Current");
+
+            foreach (var criterion in criteria)
+            {
+                WriteCriterion(writer, criterion);
+            }
+
+            writer.CloseTag();
+        }
+
+        private void WriteCriterion(HtmlTextWriter writer, IGrouping<string, Scenario> criterion)
+        {
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "criterion");
+            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+            writer.WriteTag(HtmlTextWriterTag.Div, "-{0}".With(criterion.Key), "criterion-description");
+
+            foreach (var scenario in criterion)
+            {
+                writer.AddAttribute(HtmlTextWriterAttribute.Class, "scenario");
+                writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+                WriteTestMethodName(writer, scenario);
+                WriteGivenWhenThens(writer, scenario);
+
+                writer.RenderEndTag();
+            }
+            writer.RenderEndTag();
+        }
+
+        private void WriteTestMethodName(HtmlTextWriter writer, Scenario criterion)
+        {
+            writer.WriteTag(
+                HtmlTextWriterTag.Div,
+                "--> {0}".With(criterion.TestMethodName.WithSpacesInsteadOfUnderscores()),
+                "test-method-name");
+        }
+
+        private void WriteGivenWhenThens(HtmlTextWriter writer, Scenario criterion)
+        {
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "givenWhenThens");
+
+            writer.RenderBeginTag(HtmlTextWriterTag.Div);
+
+            foreach (var step in criterion.GivenWhenThens)
+            {
+                writer.WriteTag(HtmlTextWriterTag.Div, "----> {0}".With(step), "step");
+            }
+
+            writer.RenderEndTag();
+        }
+
+        private void WritePendingCriteria(HtmlTextWriter writer, FeatureInfo featureInfo, IEnumerable<string> pendingScenarios)
+        {
+            writer.OpenTag(HtmlTextWriterTag.Div, string.Empty, "impending-criteria text-warning bg-warning");
 
             if (featureInfo.PendingScenarios.Any())
             {
-                impendingCriteriaDiv.AppendChild(this.htmlDoc.CreateElementWithText("h4", "Pending:"));
+                writer.WriteTag(HtmlTextWriterTag.H4, "Pending:");
             }
 
             foreach (var criteria in featureInfo.PendingScenarios)
             {
-                var criteriaSpan = this.htmlDoc.CreateElementWithAttributeAndText("span", "class", "criteria", criteria);
-                this.AppendChildListToNode(impendingCriteriaDiv, criteriaSpan, this.br);
+                writer.WriteTag(HtmlTextWriterTag.Div, criteria, "criteria");
             }
 
-            return impendingCriteriaDiv;
+            writer.CloseTag();
         }
 
-        private void AppendChildListToNode(HtmlNode node, params HtmlNode[] children)
-        {
-            foreach (var child in children)
-            {
-                node.AppendChild(child);
-            }
-        }
     }
 }

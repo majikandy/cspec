@@ -11,9 +11,9 @@ namespace Cspec.Documentation
     {
         public IEnumerable<string> GetFeatureDescription(MemberInfo featureType)
         {
-            var inOrderTo = "In order to {0}".FormatWith(this.GetAcceptanceAttribute<In_order_toAttribute>(featureType));
-            var asA = "As a {0}".FormatWith(this.GetAcceptanceAttribute<As_aAttribute>(featureType));
-            var want = "I want {0}".FormatWith(this.GetAcceptanceAttribute<I_wantAttribute>(featureType));
+            var inOrderTo = "In order to {0}".With(this.GetAcceptanceAttribute<In_order_toAttribute>(featureType));
+            var asA = "As a {0}".With(this.GetAcceptanceAttribute<As_aAttribute>(featureType));
+            var want = "I want {0}".With(this.GetAcceptanceAttribute<I_wantAttribute>(featureType));
             return new List<string> { inOrderTo, asA, want };
         }
 
