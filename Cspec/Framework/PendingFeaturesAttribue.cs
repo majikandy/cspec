@@ -2,18 +2,13 @@
 {
     using System;
 
-    public class PendingScenariosAttribute : Attribute
+    public class Criteria : Attribute
     {
-        private readonly string text;
-
-        public PendingScenariosAttribute(string text)
+        public Criteria(string[] criteria)
         {
-            this.text = text;
+            this.Value = criteria;
         }
 
-        public override string ToString()
-        {
-            return this.text;
-        }
+        public string[] Value { get; private set; }
     }
 }

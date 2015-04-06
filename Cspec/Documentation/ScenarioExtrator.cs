@@ -16,31 +16,58 @@ namespace Cspec.Documentation
             this.givenWhenThensExtractor = givenWhenThensExtractor;
         }
 
-        public IEnumerable<Scenario> GetScenarios(IEnumerable<Type> allDerivationsOfFeature, Type featureType)
+        public IEnumerable<CriteriaInfo> GetImplementedCriteriaAndScenarios(MemberInfo featureType, IEnumerable<Type> allDerivationsOfFeature)
         {
             var derivationsOfFeature = allDerivationsOfFeature.ToList();
+            var definedCriteria = this.GetAllCriteria(featureType);
 
-            return derivationsOfFeature
+            var implementedCriteria = this.GetAllImplementedCriteriaIncludingUnrequired(derivationsOfFeature);
+            return implementedCriteria.Where(x => definedCriteria.Contains(x, new CompareCriteriaByFeatureName()));
+        }
+
+        public IEnumerable<string> GetPendingCriteria(MemberInfo featureType, IEnumerable<Type> allDerivationsOfFeature)
+        {
+            var allCriteria = this.GetAllCriteria(featureType);
+            var implementedCriteria = this.GetImplementedCriteriaAndScenarios(featureType, allDerivationsOfFeature);
+
+            return allCriteria.Except(implementedCriteria, new CompareCriteriaByFeatureName())
+                .Select(x => x.Name);
+        }
+
+        public IEnumerable<CriteriaInfo> GetSupurfluousCriteria(MemberInfo featureType, IEnumerable<Type> allDerivationsOfFeature)
+        {
+            var allCriteria = this.GetAllCriteria(featureType);
+            var implementedCriteria = this.GetAllImplementedCriteriaIncludingUnrequired(allDerivationsOfFeature);
+
+            Console.WriteLine(allCriteria.Count());
+            Console.WriteLine(implementedCriteria.Count());
+
+            return implementedCriteria.Where(x => !allCriteria.Contains(x, new CompareCriteriaByFeatureName()));
+        }
+
+        private IEnumerable<CriteriaInfo> GetAllCriteria(MemberInfo featureType)
+        {
+            return featureType.GetCustomAttributes<Criteria>(true).Single()
+                .Value.Select(x => new CriteriaInfo(x, null, null));
+        }
+
+        private IEnumerable<CriteriaInfo> GetAllImplementedCriteriaIncludingUnrequired(IEnumerable<Type> derivationsOfFeature)
+        {
+            return derivationsOfFeature.ToList()
                 .SelectMany(t => t.GetMethods())
                 .Where(m => Attribute.IsDefined(m, typeof(TestShowingAttribute)))
                 .Select(theMethod => new { TheAttribute = this.GetTestShowingAttribute(theMethod), TheMethod = theMethod })
-                .Select(x => 
-                        new Scenario(
-                            name: x.TheAttribute.Functionality, 
-                            testMethodName: x.TheMethod.Name, 
-                            givenWhenThens: this.givenWhenThensExtractor.GetGivenWhenThens(x.TheMethod.Name, derivationsOfFeature)));
+                .Select(
+                    x =>
+                    new CriteriaInfo(
+                        name: x.TheAttribute.Functionality,
+                        testMethodName: x.TheMethod.Name,
+                        givenWhenThens: this.givenWhenThensExtractor.GetGivenWhenThens(x.TheMethod.Name, derivationsOfFeature)));
         }
 
-        private TestShowingAttribute GetTestShowingAttribute(MethodInfo x)
+        private TestShowingAttribute GetTestShowingAttribute(MethodInfo methodInfo)
         {
-            return (TestShowingAttribute)x.GetCustomAttributes(typeof(TestShowingAttribute), true).Single();
-        }
-
-        public IEnumerable<string> GetPendingScenarios(MemberInfo featureType)
-        {
-            var pending = featureType.GetCustomAttributes(typeof(PendingScenariosAttribute), true)
-                .SingleOrDefault();
-            return pending != null ? pending.ToString().Split("\r\n".ToCharArray()).Select(x => x.Trim()).Where(y => !string.IsNullOrWhiteSpace(y)) : new List<string>();
+            return methodInfo.GetCustomAttributes<TestShowingAttribute>(true).Single();
         }
     }
 }

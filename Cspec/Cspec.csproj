@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Documentation\CompareCriteriaByFeatureName.cs" />
+    <Compile Include="Documentation\CriteriaInfo.cs" />
     <Compile Include="Documentation\FeatureDescriptionExtractor.cs" />
     <Compile Include="Documentation\FeatureFilePathProvider.cs" />
     <Compile Include="Documentation\GherkinFeatureGenerator.cs" />

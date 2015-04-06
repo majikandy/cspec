@@ -43,9 +43,10 @@ namespace Cspec.Documentation
             writer.WriteTag(HtmlTextWriterTag.H2, featureInfo.Name.Replace("Feature", string.Empty));
 
             this.WriteFeatureDesciption(featureInfo, writer);
-            this.WriteCriteria(writer, featureInfo.Scenarios.GroupBy(x => x.Name));
+            this.WriteCriteria(writer, featureInfo.Criteria.GroupBy(x => x.Name));
 
-            this.WritePendingCriteria(writer, featureInfo, featureInfo.PendingScenarios);
+            this.WritePendingCriteria(writer, featureInfo.PendingCriteria);
+            this.WriteSupurfluousCriteria(writer, featureInfo.SupurfluousCriteria);
             
             writer.CloseTag();
         }
@@ -62,7 +63,7 @@ namespace Cspec.Documentation
             writer.RenderEndTag();
         }
 
-        private void WriteCriteria(HtmlTextWriter writer, IEnumerable<IGrouping<string, Scenario>> criteria)
+        private void WriteCriteria(HtmlTextWriter writer, IEnumerable<IGrouping<string, CriteriaInfo>> criteria)
         {
             writer.OpenDiv("criteria text-success");
 
@@ -76,7 +77,7 @@ namespace Cspec.Documentation
             writer.CloseTag();
         }
 
-        private void WriteCriterion(HtmlTextWriter writer, IGrouping<string, Scenario> criterion)
+        private void WriteCriterion(HtmlTextWriter writer, IGrouping<string, CriteriaInfo> criterion)
         {
             writer.OpenDiv("criterion");
 
@@ -95,19 +96,19 @@ namespace Cspec.Documentation
             writer.CloseTag();
         }
 
-        private void WriteTestMethodName(HtmlTextWriter writer, Scenario criterion)
+        private void WriteTestMethodName(HtmlTextWriter writer, CriteriaInfo criterionInfo)
         {
             writer.WriteTag(
                 HtmlTextWriterTag.Div,
-                "--> {0}".With(criterion.TestMethodName.WithSpacesInsteadOfUnderscores()),
+                "--> {0}".With(criterionInfo.TestMethodName.WithSpacesInsteadOfUnderscores()),
                 "test-method-name");
         }
 
-        private void WriteGivenWhenThens(HtmlTextWriter writer, Scenario criterion)
+        private void WriteGivenWhenThens(HtmlTextWriter writer, CriteriaInfo criterionInfo)
         {
             writer.OpenDiv("givenWhenThens");
 
-            foreach (var step in criterion.GivenWhenThens)
+            foreach (var step in criterionInfo.GivenWhenThens)
             {
                 writer.WriteTag(HtmlTextWriterTag.Div, "----> {0}".With(step), "step");
             }
@@ -115,18 +116,35 @@ namespace Cspec.Documentation
             writer.CloseTag();
         }
 
-        private void WritePendingCriteria(HtmlTextWriter writer, FeatureInfo featureInfo, IEnumerable<string> pendingScenarios)
+        private void WritePendingCriteria(HtmlTextWriter writer, IEnumerable<string> pendingScenarios)
         {
-            writer.OpenDiv("impending-criteria text-warning bg-warning");
+            writer.OpenDiv("pending-criteria text-warning bg-warning");
 
-            if (featureInfo.PendingScenarios.Any())
+            if (pendingScenarios.Any())
             {
                 writer.WriteTag(HtmlTextWriterTag.H4, "Pending:");
             }
 
-            foreach (var criteria in featureInfo.PendingScenarios)
+            foreach (var criteria in pendingScenarios)
             {
                 writer.WriteTag(HtmlTextWriterTag.Div, criteria, "criteria");
+            }
+
+            writer.CloseTag();
+        }
+
+        private void WriteSupurfluousCriteria(HtmlTextWriter writer, IEnumerable<CriteriaInfo> supurfluousCriteria)
+        {
+            writer.OpenDiv("supurfluous-criteria text-warning bg-error");
+
+            if (supurfluousCriteria.Any())
+            {
+                writer.WriteTag(HtmlTextWriterTag.H4, "Supurfluous:");
+            }
+
+            foreach (var criteria in supurfluousCriteria)
+            {
+                writer.WriteTag(HtmlTextWriterTag.Div, criteria.Name, "criteria");
             }
 
             writer.CloseTag();

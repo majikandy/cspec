@@ -21,7 +21,7 @@ namespace Cspec.Documentation
                 }
                 stringBuilder.AppendLine();
 
-                foreach (var scenario in featureInfo.Scenarios)
+                foreach (var scenario in featureInfo.Criteria)
                 {
                     stringBuilder.AppendLine("Scenario: {0}".With(scenario.TestMethodName.Replace("_", " ")));
                     foreach (var step in scenario.GivenWhenThens)
@@ -31,7 +31,7 @@ namespace Cspec.Documentation
                     stringBuilder.AppendLine();
                 }
 
-                foreach (var pendingScenario in featureInfo.PendingScenarios)
+                foreach (var pendingScenario in featureInfo.PendingCriteria)
                 {
                     stringBuilder.AppendLine("@ignore @pending");
                     stringBuilder.AppendLine("Scenario: {0}".With(pendingScenario));

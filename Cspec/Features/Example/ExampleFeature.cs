@@ -6,10 +6,11 @@
     [As_a("developer in test")]
     [I_want("see code examples")]
     
-    [PendingScenarios(@" 
-        Second requirement
-        Third requirement
-    ")]
+    [Criteria(new []{ 
+        "Adding 3 and 4 gives 7",
+        "Second requirement",
+        "Third requirement"
+    })]
 
     public class ExampleFeature
     {

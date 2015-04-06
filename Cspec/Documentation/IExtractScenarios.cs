@@ -6,7 +6,8 @@ namespace Cspec.Documentation
 
     public interface IExtractScenarios
     {
-        IEnumerable<Scenario> GetScenarios(IEnumerable<Type> allDerivationsOfFeature, Type featureType);
-        IEnumerable<string> GetPendingScenarios(MemberInfo featureType);
+        IEnumerable<CriteriaInfo> GetImplementedCriteriaAndScenarios(MemberInfo featureType, IEnumerable<Type> allDerivationsOfFeature);
+        IEnumerable<string> GetPendingCriteria(MemberInfo featureType, IEnumerable<Type> allDerivationsOfFeature);
+        IEnumerable<CriteriaInfo> GetSupurfluousCriteria(MemberInfo featureType, IEnumerable<Type> allDerivationsOfFeature);
     }
 }

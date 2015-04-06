@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Features\GenerateDocumentationFeature.cs" />
-    <Compile Include="Features\SimpleExtractOfInfoFromItselfTests.cs" />
+    <Compile Include="Features\GenerateDocumentation\SimpleExtractOfInfoFromItselfTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

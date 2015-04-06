@@ -1,6 +1,5 @@
 namespace Cspec.Documentation
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -27,14 +26,15 @@ namespace Cspec.Documentation
             
             foreach (var featureType in featureTypes)
             {
-                var allDerivationsOfFeature = assembly.GetTypes().Where(x => featureType.IsAssignableFrom(x) && x != featureType);
+                var allDerivationsOfFeature = assembly.GetTypes().Where(x => featureType.IsAssignableFrom(x) && x != featureType).ToList();
 
                 features.Add(new FeatureInfo()
                     {
                         Name = featureType.Name.Replace("Feature", string.Empty),
-                        Scenarios = this.scenarioExtrator.GetScenarios(allDerivationsOfFeature, featureType),
-                        PendingScenarios = this.scenarioExtrator.GetPendingScenarios(featureType), 
-                        AcceptanceDescription = this.featureDescriptionExtractor.GetFeatureDescription(featureType)
+                        Criteria = this.scenarioExtrator.GetImplementedCriteriaAndScenarios(featureType, allDerivationsOfFeature),
+                        PendingCriteria = this.scenarioExtrator.GetPendingCriteria(featureType, allDerivationsOfFeature), 
+                        AcceptanceDescription = this.featureDescriptionExtractor.GetFeatureDescription(featureType),
+                        SupurfluousCriteria = this.scenarioExtrator.GetSupurfluousCriteria(featureType, allDerivationsOfFeature)
                     });
             }
 

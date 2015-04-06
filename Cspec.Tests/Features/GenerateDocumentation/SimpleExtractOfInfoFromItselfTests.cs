@@ -1,5 +1,6 @@
-namespace Cspec.Tests.Features
+namespace Cspec.Tests.Features.GenerateDocumentationFeatureScenarios
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -32,6 +33,11 @@ namespace Cspec.Tests.Features
             this.then_only_exists_to_check_docuementation_extraction_works();
         }
 
+        [TestShowing("something not required")]
+        public void should_show_in_report_as_not_required()
+        {
+        }
+
         private void then_only_exists_to_check_docuementation_extraction_works()
         {    
         }
@@ -61,24 +67,26 @@ namespace Cspec.Tests.Features
             
             Assert.That(featureInfo.Name, Is.EqualTo("GenerateDocumentation"));
 
-            Assert.That(featureInfo.PendingScenarios.Count(), Is.EqualTo(2));
-            Assert.That(featureInfo.PendingScenarios.First(), Is.EqualTo("a pending scenario"));
-            Assert.That(featureInfo.PendingScenarios.Skip(1).First(), Is.EqualTo("another pending scenario"));
+            Assert.That(featureInfo.PendingCriteria.Count(), Is.EqualTo(2));
+            Assert.That(featureInfo.PendingCriteria.First(), Is.EqualTo("a pending scenario"));
+            Assert.That(featureInfo.PendingCriteria.Skip(1).First(), Is.EqualTo("another pending scenario"));
 
-            Assert.That(featureInfo.Scenarios.Count(), Is.EqualTo(2));
-            Assert.That(featureInfo.Scenarios.First().Name, Is.EqualTo("it builds the FeaturesInfo from the attributed source code"));
-            Assert.That(featureInfo.Scenarios.First().TestMethodName, Is.EqualTo("should_build_from_attributed_test_code"));
+            Assert.That(featureInfo.Criteria.Count(), Is.EqualTo(2));
+            Assert.That(featureInfo.Criteria.First().Name, Is.EqualTo("it builds the FeaturesInfo from the attributed source code"));
+            Assert.That(featureInfo.Criteria.First().TestMethodName, Is.EqualTo("should_build_from_attributed_test_code"));
             
-            Assert.That(featureInfo.Scenarios.First().GivenWhenThens.First(), Is.EqualTo("given current assembly"));
-            Assert.That(featureInfo.Scenarios.First().GivenWhenThens.Skip(1).First(), Is.EqualTo("when extracting features"));
-            Assert.That(featureInfo.Scenarios.First().GivenWhenThens.Skip(2).First(), Is.EqualTo("then I should see a representation of this feature"));
-            Assert.That(featureInfo.Scenarios.First().GivenWhenThens.Skip(3).First(), Is.EqualTo("then I should be able to produce this feature in gherkin"));
-            Assert.That(featureInfo.Scenarios.First().GivenWhenThens.Skip(4).First(), Is.EqualTo("then I should be able to produce this feature in html"));
+            Assert.That(featureInfo.Criteria.First().GivenWhenThens.First(), Is.EqualTo("given current assembly"));
+            Assert.That(featureInfo.Criteria.First().GivenWhenThens.Skip(1).First(), Is.EqualTo("when extracting features"));
+            Assert.That(featureInfo.Criteria.First().GivenWhenThens.Skip(2).First(), Is.EqualTo("then I should see a representation of this feature"));
+            Assert.That(featureInfo.Criteria.First().GivenWhenThens.Skip(3).First(), Is.EqualTo("then I should be able to produce this feature in gherkin"));
+            Assert.That(featureInfo.Criteria.First().GivenWhenThens.Skip(4).First(), Is.EqualTo("then I should be able to produce this feature in html"));
 
-            Assert.That(featureInfo.Scenarios.Skip(1).First().Name, Is.EqualTo("it builds the FeaturesInfo from the attributed source code"));
-            Assert.That(featureInfo.Scenarios.Skip(1).First().TestMethodName, Is.EqualTo("should_show_you_can_have_multiple_tests_per_scenario"));
-            Assert.That(featureInfo.Scenarios.Skip(1).First().GivenWhenThens.First(), Is.EqualTo("when without a given and a param of(3)"));
-            Assert.That(featureInfo.Scenarios.Skip(1).First().GivenWhenThens.Skip(1).First(), Is.EqualTo("then only exists to check docuementation extraction works"));
+            Assert.That(featureInfo.Criteria.Skip(1).First().Name, Is.EqualTo("it builds the FeaturesInfo from the attributed source code"));
+            Assert.That(featureInfo.Criteria.Skip(1).First().TestMethodName, Is.EqualTo("should_show_you_can_have_multiple_tests_per_scenario"));
+            Assert.That(featureInfo.Criteria.Skip(1).First().GivenWhenThens.First(), Is.EqualTo("when without a given and a param of(3)"));
+            Assert.That(featureInfo.Criteria.Skip(1).First().GivenWhenThens.Skip(1).First(), Is.EqualTo("then only exists to check docuementation extraction works"));
+
+            Assert.That(featureInfo.SupurfluousCriteria.Count(), Is.EqualTo(1));
         }
 
         private void then_I_should_be_able_to_produce_this_feature_in_gherkin()
@@ -148,10 +156,14 @@ Scenario: another pending scenario
                     </div>
                 </div>
             </div>
-            <div class=""impending-criteria text-warning bg-warning"">
+            <div class=""pending-criteria text-warning bg-warning"">
                 <h4>Pending:</h4>
                 <div class=""criteria"">a pending scenario</div>
                 <div class=""criteria"">another pending scenario</div>
+            </div>
+            <div class=""supurfluous-criteria text-warning bg-error"">
+                <h4>Supurfluous:</h4>
+                <div class=""criteria"">something not required</div>
             </div>
         </div>
     </div>
