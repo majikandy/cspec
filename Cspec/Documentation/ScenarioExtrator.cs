@@ -5,7 +5,10 @@ namespace Cspec.Documentation
     using System.Linq;
     using System.Reflection;
 
+    using Cspec.Common;
     using Cspec.Framework;
+
+    using NUnit.Framework;
 
     public class ScenarioExtrator : IExtractScenarios
     {
@@ -39,35 +42,37 @@ namespace Cspec.Documentation
             var allCriteria = this.GetAllCriteria(featureType);
             var implementedCriteria = this.GetAllImplementedCriteriaIncludingUnrequired(allDerivationsOfFeature);
 
-            Console.WriteLine(allCriteria.Count());
-            Console.WriteLine(implementedCriteria.Count());
-
             return implementedCriteria.Where(x => !allCriteria.Contains(x, new CompareCriteriaByFeatureName()));
         }
 
         private IEnumerable<CriteriaInfo> GetAllCriteria(MemberInfo featureType)
         {
-            return featureType.GetCustomAttributes<Criteria>(true).Single()
-                .Value.Select(x => new CriteriaInfo(x, null, null));
+            var criteria = featureType.GetCustomAttributes<Criteria>(true).SingleOrDefault();
+            if (criteria == null)
+            {
+                throw new CriteriaNotSpecifiedException(@"Expected '{0}' to have Criteria Attribute eg  [Criteria(new[] {{ ""should show message when there is an error"", ""should not show any messages when succeeds"" }})]".With(featureType.Name));
+            }
+            
+            return criteria.Value.Select(x => new CriteriaInfo(x, null, null));
         }
 
         private IEnumerable<CriteriaInfo> GetAllImplementedCriteriaIncludingUnrequired(IEnumerable<Type> derivationsOfFeature)
         {
             return derivationsOfFeature.ToList()
                 .SelectMany(t => t.GetMethods())
-                .Where(m => Attribute.IsDefined(m, typeof(TestShowingAttribute)))
-                .Select(theMethod => new { TheAttribute = this.GetTestShowingAttribute(theMethod), TheMethod = theMethod })
+                .Where(m => Attribute.IsDefined(m, typeof(TestAttribute)))
+                .Select(theMethod => new { TheAttribute = this.GetTestAttribute(theMethod), TheMethod = theMethod })
                 .Select(
                     x =>
                     new CriteriaInfo(
-                        name: x.TheAttribute.Functionality,
+                        name: x.TheAttribute.Description,
                         testMethodName: x.TheMethod.Name,
                         givenWhenThens: this.givenWhenThensExtractor.GetGivenWhenThens(x.TheMethod.Name, derivationsOfFeature)));
         }
 
-        private TestShowingAttribute GetTestShowingAttribute(MethodInfo methodInfo)
+        private TestAttribute GetTestAttribute(MethodInfo methodInfo)
         {
-            return methodInfo.GetCustomAttributes<TestShowingAttribute>(true).Single();
+            return methodInfo.GetCustomAttributes<TestAttribute>(true).Single();
         }
     }
 }

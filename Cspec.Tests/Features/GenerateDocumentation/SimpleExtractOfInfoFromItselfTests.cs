@@ -16,7 +16,7 @@ namespace Cspec.Tests.Features.GenerateDocumentationFeatureScenarios
         private Assembly assembly;
         private IEnumerable<FeatureInfo> extractedFeatures;
 
-        [TestShowing("it builds the FeaturesInfo from the attributed source code")]
+        [Test(Description = "it builds the FeaturesInfo from the attributed source code")]
         public void should_build_from_attributed_test_code()
         {
             this.given_current_assembly();
@@ -26,14 +26,14 @@ namespace Cspec.Tests.Features.GenerateDocumentationFeatureScenarios
             this.then_I_should_be_able_to_produce_this_feature_in_html();
         }
 
-        [TestShowing("it builds the FeaturesInfo from the attributed source code")]
+        [Test(Description = "it builds the FeaturesInfo from the attributed source code")]
         public void should_show_you_can_have_multiple_tests_per_scenario()
         {
             this.when_without_a_given_and_a_param_of(3);
             this.then_only_exists_to_check_docuementation_extraction_works();
         }
 
-        [TestShowing("something not required")]
+        [Test(Description = "something not required")]
         public void should_show_in_report_as_not_required()
         {
         }

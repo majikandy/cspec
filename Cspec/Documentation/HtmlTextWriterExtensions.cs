@@ -46,7 +46,5 @@ namespace Cspec.Documentation
             writer.RenderBeginTag(HtmlTextWriterTag.Link);
             writer.RenderEndTag();
         }
-
-       
     }
 }
