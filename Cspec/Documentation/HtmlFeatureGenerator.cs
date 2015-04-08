@@ -80,8 +80,10 @@ namespace Cspec.Documentation
         private void WriteCriterion(HtmlTextWriter writer, IGrouping<string, CriteriaInfo> criterion)
         {
             writer.OpenDiv("criterion");
-
+            
+            writer.OpenTag(HtmlTextWriterTag.Strong, string.Empty);
             writer.WriteTag(HtmlTextWriterTag.Div, "-{0}".With(criterion.Key), "criterion-description");
+            writer.CloseTag();
 
             foreach (var scenario in criterion)
             {
