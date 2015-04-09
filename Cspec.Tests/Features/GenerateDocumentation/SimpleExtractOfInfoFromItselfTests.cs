@@ -136,7 +136,7 @@ Scenario: another pending scenario
             <div class=""criteria text-success"">
                 <h4>Current</h4>
                 <div class=""criterion"">
-                    <div class=""criterion-description"">-it builds the FeaturesInfo from the attributed source code</div>
+                    <strong><div class=""criterion-description"">-it builds the FeaturesInfo from the attributed source code</div></strong>
                     <div class=""scenario"">
                         <div class=""test-method-name"">--> should build from attributed test code</div>
                         <div class=""givenWhenThens"">
