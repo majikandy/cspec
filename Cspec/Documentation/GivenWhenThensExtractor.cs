@@ -60,14 +60,19 @@ namespace Cspec.Documentation
         {
             var featureFilesRootPath = this.featuresConfig.FeatureFilesRootPath ?? @"..\..\Features";
 
-            var sourceFiles = derivationsClassNames.Select(x => Directory.GetFiles(featureFilesRootPath, x.Name + ".cs", SearchOption.AllDirectories)
-                    .SingleOrDefault());
+            var sourceFiles = derivationsClassNames
+                .Select(x => Directory.GetFiles(featureFilesRootPath, x.Name + ".cs", SearchOption.AllDirectories)
+                .SingleOrDefault());
 
-            if (sourceFiles.Any(x => x == null))
+            var missingClassFiles = derivationsClassNames.Select(d => d.Name)
+                .Except(sourceFiles.Select(Path.GetFileNameWithoutExtension));
+            
+            if (missingClassFiles.Any())
             {
-                throw new SpecException(@"Features not found at '{0}'. Ensure all features are located within a \Features\ folder at the root of the test project, or override this setting by supplying the following app setting for the project <add key='featureFilesRootPath' value='path_here' />. Also check that the scenario classes inherit from the <FeatureName>Feature.cs marker class and they themselves are in file names by the same name as the class name.. eg LoginTests inside LoginTests.cs inheriting from LoginFeature (where LoginFeature.cs has the In_order_to, As_a, I_want in it)"
-                    .With(featureFilesRootPath));
+                var allClasses = string.Join("\n\n", missingClassFiles.Select(x => x));
+                throw new SpecException("The following class names did not have file names that match the class name (Cspec requires this):\n {0}".With(allClasses) );
             }
+
             return sourceFiles;
         }
     }
