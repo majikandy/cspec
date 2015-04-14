@@ -27,31 +27,41 @@ namespace Cspec.Documentation
                 var methodFound = false;
                 foreach (var line in featureFileSourcecodeLines)
                 {
-                    if (!methodFound && !line.Contains(methodNameContainingGivenWhenThens))
+                    if (!methodFound && !line.RemoveWhitespace().Contains(methodNameContainingGivenWhenThens + "("))
                     {
                         continue;
                     }
+
                     methodFound = true;
                     if (line.Trim() == "}")
                     {
                         break;
                     }
+
                     if (line.Contains(methodNameContainingGivenWhenThens) || line.Trim() == "{")
                     {
                         continue;
                     }
-                    var stepName = line.Trim().Replace("this.", "").Replace("_", " ").Replace("();", string.Empty);
+
+                    var stepName = line.Trim()
+                        .Replace("this.", string.Empty)
+                        .Replace("_", " ")
+                        .Replace("();", string.Empty);
+
                     if (stepName.EndsWith(";"))
                     {
                         stepName = stepName.Substring(0, stepName.Length - 1);
                     }
+
                     givenWhenThens.Add(stepName);
                 }
+
                 if (methodFound)
                 {
                     return givenWhenThens;
                 }
             }
+
             throw new SpecException(
                 "{0} wasn't found in any of the features source files, check that the files inherit from the <FeatureName>Feature class and are in files by the same name as their class names");
         }
@@ -64,8 +74,8 @@ namespace Cspec.Documentation
                 .Select(x => Directory.GetFiles(featureFilesRootPath, x.Name + ".cs", SearchOption.AllDirectories)
                 .SingleOrDefault());
 
-            var missingClassFiles = derivationsClassNames.Select(d => d.Name)
-                .Except(sourceFiles.Select(Path.GetFileNameWithoutExtension));
+            var missingClassFiles = derivationsClassNames.Select(d => d.Name.ToLower())
+                .Except(sourceFiles.Select(s => Path.GetFileNameWithoutExtension(s).ToLower()));
             
             if (missingClassFiles.Any())
             {

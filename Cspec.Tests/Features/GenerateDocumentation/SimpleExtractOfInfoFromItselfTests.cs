@@ -1,23 +1,34 @@
-namespace Cspec.Tests.Features.GenerateDocumentationFeatureScenarios
+namespace Cspec.Tests.Features.GenerateDocumentation
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
 
     using Cspec.Common;
     using Cspec.Documentation;
-    using Cspec.Framework;
 
     using NUnit.Framework;
 
+    /// <summary>
+    /// The simple extract of info from itself tests.
+    /// </summary>
     public class SimpleExtractOfInfoFromItselfTests : GenerateDocumentationFeature
     {
+        /// <summary>
+        /// The assembly.
+        /// </summary>
         private Assembly assembly;
+
+        /// <summary>
+        /// The extracted features.
+        /// </summary>
         private IEnumerable<FeatureInfo> extractedFeatures;
 
+        /// <summary>
+        /// The should_build_from_attributed_test_code.
+        /// </summary>
         [Test(Description = "it builds the FeaturesInfo from the attributed source code")]
-        public void should_build_from_attributed_test_code()
+        public void should_build_from_attributed_test_code ()
         {
             this.given_current_assembly();
             this.when_extracting_features();
@@ -26,6 +37,9 @@ namespace Cspec.Tests.Features.GenerateDocumentationFeatureScenarios
             this.then_I_should_be_able_to_produce_this_feature_in_html();
         }
 
+        /// <summary>
+        /// The should_show_you_can_have_multiple_tests_per_scenario.
+        /// </summary>
         [Test(Description = "it builds the FeaturesInfo from the attributed source code")]
         public void should_show_you_can_have_multiple_tests_per_scenario()
         {
@@ -33,30 +47,51 @@ namespace Cspec.Tests.Features.GenerateDocumentationFeatureScenarios
             this.then_only_exists_to_check_docuementation_extraction_works();
         }
 
+        /// <summary>
+        /// The should_show_in_report_as_not_required.
+        /// </summary>
         [Test(Description = "something not required")]
         public void should_show_in_report_as_not_required()
         {
         }
 
+        /// <summary>
+        /// The then_only_exists_to_check_docuementation_extraction_works.
+        /// </summary>
         private void then_only_exists_to_check_docuementation_extraction_works()
         {    
         }
 
+        /// <summary>
+        /// The when_without_a_given_and_a_param_of.
+        /// </summary>
+        /// <param name="onlyUsedToProveTest">
+        /// The only used to prove test.
+        /// </param>
         private void when_without_a_given_and_a_param_of(int onlyUsedToProveTest)
         {
         }
 
+        /// <summary>
+        /// The given_current_assembly.
+        /// </summary>
         private void given_current_assembly()
         {
             this.assembly = this.GetType().Assembly;
         }
 
+        /// <summary>
+        /// The when_extracting_features.
+        /// </summary>
         private void when_extracting_features()
         {
             var featureExtractor = new FeatureExtractor(new FeatureDescriptionExtractor(), new ScenarioExtrator(new GivenWhenThensExtractor(new FeatureFilePathProvider())));
             this.extractedFeatures = featureExtractor.ExtractFeatures(this.assembly);
         }
 
+        /// <summary>
+        /// The then_ i_should_see_a_representation_of_this_feature.
+        /// </summary>
         private void then_I_should_see_a_representation_of_this_feature()
         {
             var featureInfo = this.extractedFeatures.Single();
@@ -89,6 +124,9 @@ namespace Cspec.Tests.Features.GenerateDocumentationFeatureScenarios
             Assert.That(featureInfo.SupurfluousCriteria.Count(), Is.EqualTo(1));
         }
 
+        /// <summary>
+        /// The then_ i_should_be_able_to_produce_this_feature_in_gherkin.
+        /// </summary>
         private void then_I_should_be_able_to_produce_this_feature_in_gherkin()
         {
             var expectedGherkin = @"Feature: GenerateDocumentation
@@ -120,6 +158,9 @@ Scenario: another pending scenario
                 Is.EqualTo(expectedGherkin));
         }
 
+        /// <summary>
+        /// The then_ i_should_be_able_to_produce_this_feature_in_html.
+        /// </summary>
         private void then_I_should_be_able_to_produce_this_feature_in_html()
         {
             var expectedHtml = @"
@@ -171,7 +212,7 @@ Scenario: another pending scenario
 ";
 
             Assert.That(
-                new HtmlFeatureGenerator().BuildFeatureDocumentation(this.extractedFeatures),
+                new HtmlFeatureGenerator().BuildFeatureDocumentation(this.extractedFeatures), 
                 Is.EqualTo(expectedHtml.TrimWhitespaceWithinHtml()));
         }
     }

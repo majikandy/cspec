@@ -11,7 +11,7 @@ namespace Cspec.Common
 
         public static string TrimWhitespaceWithinHtml(this string htmlToTrim)
         {
-            var html = Regex.Replace(htmlToTrim, @"\n|\t|\r", "");
+            var html = Regex.Replace(htmlToTrim, @"\n|\t|\r", string.Empty);
             html = Regex.Replace(html, @">\s+<", "><").Trim();
             html = Regex.Replace(html, @"\s{2,}", " ");
             return html.Trim();
@@ -20,6 +20,11 @@ namespace Cspec.Common
         public static string WithSpacesInsteadOfUnderscores(this string theString)
         {
             return theString.Replace("_", " ");
+        }
+
+        public static string RemoveWhitespace(this string theString)
+        {
+            return theString.Replace(" ", string.Empty);
         }
     }
 }
