@@ -2,13 +2,13 @@
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EC7C7D71-1C21-470B-93B9-0B44D0F20A77}</ProjectGuid>
+    <ProjectGuid>{0E8936CF-DEB2-4077-B057-A6F7A671AA24}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cspec</RootNamespace>
-    <AssemblyName>Cspec</AssemblyName>
+    <RootNamespace>Example</RootNamespace>
+    <AssemblyName>Example</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -32,14 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,44 +44,47 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extractor\CompareCriteriaByFeatureName.cs" />
-    <Compile Include="Extractor\CriteriaInfo.cs" />
-    <Compile Include="Extractor\CriteriaNotSpecifiedException.cs" />
-    <Compile Include="Extractor\FeatureDescriptionExtractor.cs" />
-    <Compile Include="Extractor\FeatureFilePathProvider.cs" />
-    <Compile Include="Generators\GeneratorBase.cs" />
-    <Compile Include="Generators\GherkinFeatureGenerator.cs" />
-    <Compile Include="Extractor\GivenWhenThensExtractor.cs" />
-    <Compile Include="Generators\HtmlTextWriterExtensions.cs" />
-    <Compile Include="Extractor\IExtractFeatureDescription.cs" />
-    <Compile Include="Extractor\IExtractGivenWhenThens.cs" />
-    <Compile Include="Extractor\IExtractScenarios.cs" />
-    <Compile Include="Generators\IGenerateFeatures.cs" />
-    <Compile Include="Extractor\IGetFeatureFilesPath.cs" />
-    <Compile Include="Extractor\ScenarioExtrator.cs" />
-    <Compile Include="Extractor\CspecException.cs" />
-    <Compile Include="Framework\As_aAttribute.cs" />
-    <Compile Include="Extractor\FeatureInfo.cs" />
-    <Compile Include="Extractor\FeatureExtractor.cs" />
-    <Compile Include="Generators\HtmlFeatureGenerator.cs" />
-    <Compile Include="Framework\FeatureAttribute.cs" />
-    <Compile Include="Framework\IAcceptanceAttribute.cs" />
-    <Compile Include="Framework\In_order_toAttribute.cs" />
-    <Compile Include="Framework\I_wantAttribute.cs" />
-    <Compile Include="Framework\PendingFeaturesAttribue.cs" />
+    <Compile Include="Features\BuildDocs.cs" />
+    <Compile Include="Features\Example\ExampleFeature.cs" />
+    <Compile Include="Features\Example\Scenarios\adding_0_and_0_gives_0.cs" />
+    <Compile Include="Features\Example\Scenarios\adding_3_and_4_gives_7.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Common\StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Cspec.nuspec" />
+    <None Include="Content\bootstrap-theme.css.map" />
+    <None Include="Content\bootstrap.css.map" />
+    <None Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="fonts\glyphicons-halflings-regular.woff" />
+    <None Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="packages.config" />
+    <None Include="Scripts\jquery-1.9.1.min.map" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Cspec\Cspec.csproj">
+      <Project>{ec7c7d71-1c21-470b-93b9-0b44d0f20a77}</Project>
+      <Name>Cspec</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bootstrap.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Features.html" />
+    <Content Include="Features.txt" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Icon.png" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Scripts\jquery-1.9.1.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\npm.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <PropertyGroup>
-    <PostBuildEvent>$(SolutionDir)\.nuget\nuget.exe pack $(ProjectPath)</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

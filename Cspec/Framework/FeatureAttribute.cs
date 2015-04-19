@@ -2,7 +2,7 @@
 {
     using System;
 
-    public abstract class FeatureAttribute : Attribute, Documentation.IAcceptanceAttribute
+    public abstract class FeatureAttribute : Attribute, IAcceptanceAttribute
     {
         protected FeatureAttribute(string text)
         {

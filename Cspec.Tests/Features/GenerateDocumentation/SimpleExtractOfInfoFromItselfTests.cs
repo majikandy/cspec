@@ -5,7 +5,8 @@ namespace Cspec.Tests.Features.GenerateDocumentation
     using System.Reflection;
 
     using Cspec.Common;
-    using Cspec.Documentation;
+    using Cspec.Extractor;
+    using Cspec.Generators;
 
     using NUnit.Framework;
 
@@ -121,7 +122,7 @@ namespace Cspec.Tests.Features.GenerateDocumentation
             Assert.That(featureInfo.Criteria.Skip(1).First().GivenWhenThens.First(), Is.EqualTo("when without a given and a param of(3)"));
             Assert.That(featureInfo.Criteria.Skip(1).First().GivenWhenThens.Skip(1).First(), Is.EqualTo("then only exists to check docuementation extraction works"));
 
-            Assert.That(featureInfo.SupurfluousCriteria.Count(), Is.EqualTo(1));
+            Assert.That(featureInfo.SuperfluousCriteria.Count(), Is.EqualTo(1));
         }
 
         /// <summary>
@@ -154,7 +155,7 @@ Scenario: another pending scenario
 
 ";
             Assert.That(
-                new GherkinFeatureGenerator().BuildFeatureDocumentation(this.extractedFeatures), 
+                new GherkinFeatureGenerator().Build(this.extractedFeatures), 
                 Is.EqualTo(expectedGherkin));
         }
 
@@ -202,8 +203,8 @@ Scenario: another pending scenario
                 <div class=""criteria"">a pending scenario</div>
                 <div class=""criteria"">another pending scenario</div>
             </div>
-            <div class=""supurfluous-criteria text-warning bg-error"">
-                <h4>Supurfluous:</h4>
+            <div class=""superfluous-criteria text-warning bg-error"">
+                <h4>Superfluous:</h4>
                 <div class=""criteria"">something not required</div>
             </div>
         </div>
@@ -212,7 +213,7 @@ Scenario: another pending scenario
 ";
 
             Assert.That(
-                new HtmlFeatureGenerator().BuildFeatureDocumentation(this.extractedFeatures), 
+                new HtmlFeatureGenerator().Build(this.extractedFeatures), 
                 Is.EqualTo(expectedHtml.TrimWhitespaceWithinHtml()));
         }
     }
