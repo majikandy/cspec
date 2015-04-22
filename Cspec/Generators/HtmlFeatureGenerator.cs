@@ -16,7 +16,9 @@ namespace Cspec.Generators
             var writer = new HtmlTextWriter(stringWriter);
 
             writer.OpenDiv("container");
-            writer.WriteStylesheet("bootstrap.min.css");
+            writer.WriteStylesheet(@"Content\bootstrap.min.css");
+            writer.WriteScript(@"Scripts\jquery-1.9.1.min.js");
+            writer.WriteScript(@"Scripts\bootstrap.min.js");
             
             this.WriteFeatures(writer, features);
 
@@ -39,16 +41,27 @@ namespace Cspec.Generators
 
         private void WriteFeature(HtmlTextWriter writer, FeatureInfo featureInfo)
         {
+            var featureName = featureInfo.Name.Replace("Feature", string.Empty);
+            var featureCollapserName = featureName + "Collapser";
+
             writer.OpenDiv("feature well");
+                writer.AddAttribute(HtmlTextWriterAttribute.Class, "h2");
+                writer.AddAttribute("data-toggle", "collapse");
+                writer.AddAttribute(HtmlTextWriterAttribute.Href, "#" + featureCollapserName);
+                writer.AddAttribute("aria-expanded", "false");
+                writer.AddAttribute("aria-controls", featureCollapserName);
+                writer.WriteTag(HtmlTextWriterTag.A, featureName);
 
-            writer.WriteTag(HtmlTextWriterTag.H2, featureInfo.Name.Replace("Feature", string.Empty));
+                writer.AddAttribute("id", featureCollapserName);
+                writer.OpenDiv("collapse");
+                    writer.WriteBreak();
+                    this.WriteFeatureDesciption(featureInfo, writer);
+                    this.WriteCriteria(writer, featureInfo.Criteria.GroupBy(x => x.Name));
 
-            this.WriteFeatureDesciption(featureInfo, writer);
-            this.WriteCriteria(writer, featureInfo.Criteria.GroupBy(x => x.Name));
+                    this.WritePendingCriteria(writer, featureInfo.PendingCriteria);
+                    this.WriteSuperfluousCriteria(writer, featureInfo.SuperfluousCriteria);
+                writer.CloseTag();
 
-            this.WritePendingCriteria(writer, featureInfo.PendingCriteria);
-            this.WriteSuperfluousCriteria(writer, featureInfo.SuperfluousCriteria);
-            
             writer.CloseTag();
         }
 

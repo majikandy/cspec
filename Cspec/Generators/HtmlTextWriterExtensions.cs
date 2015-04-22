@@ -46,5 +46,12 @@ namespace Cspec.Generators
             writer.RenderBeginTag(HtmlTextWriterTag.Link);
             writer.RenderEndTag();
         }
+
+        public static void WriteScript(this HtmlTextWriter writer, string jsPath)
+        {
+            writer.AddAttribute(HtmlTextWriterAttribute.Src, jsPath);
+            writer.RenderBeginTag(HtmlTextWriterTag.Script);
+            writer.RenderEndTag();
+        }
     }
 }
