@@ -56,13 +56,13 @@ CSpec is built with a specific process in mind and that process is bullet points
 
 So, your tests are no different to what you know now, they are simple NUnit Tests. With one addition, a Description attribute to show which bullet point from the features that you are covering with that test (or tests)
 
-[Test(Description="there is a login box where a signup up user can log in")]
-public void login_box_is_on_the_homepage_as_popup()
-{
-     given_i_am_on_the_homepage();
-     when_i_click_sign_in();
-     then_i_am_shown_a_popup_where_i_can_login();
-}
+    [Test(Description="there is a login box where a signup up user can log in")]
+    public void login_box_is_on_the_homepage_as_popup()
+    {
+       given_i_am_on_the_homepage();
+       when_i_click_sign_in();
+       then_i_am_shown_a_popup_where_i_can_login();
+    }
 
 How do I oraganise this against the Feature?
 
