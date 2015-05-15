@@ -9,7 +9,8 @@
     [Criteria(new[]{
         "it builds the FeaturesInfo from the attributed source code",
         "a pending scenario",
-        "another pending scenario"}
+        "another pending scenario",
+        "ignored test should appear as pending"}
     )]
 
     public class GenerateDocumentationFeature

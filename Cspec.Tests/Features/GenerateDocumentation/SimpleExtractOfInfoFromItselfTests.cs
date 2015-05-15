@@ -37,6 +37,11 @@ namespace Cspec.Tests.Features.GenerateDocumentation
         {
         }
 
+        [Ignore, Test(Description = "ignored test should appear as pending")]
+        public void ignore_test_appears_as_pending()
+        {
+        }
+
         private void then_only_exists_to_check_docuementation_extraction_works()
         {    
         }
@@ -66,9 +71,10 @@ namespace Cspec.Tests.Features.GenerateDocumentation
             
             Assert.That(featureInfo.Name, Is.EqualTo("GenerateDocumentation"));
 
-            Assert.That(featureInfo.PendingCriteria.Count(), Is.EqualTo(2));
+            Assert.That(featureInfo.PendingCriteria.Count(), Is.EqualTo(3));
             Assert.That(featureInfo.PendingCriteria.First(), Is.EqualTo("a pending scenario"));
             Assert.That(featureInfo.PendingCriteria.Skip(1).First(), Is.EqualTo("another pending scenario"));
+            Assert.That(featureInfo.PendingCriteria.Skip(2).First(), Is.EqualTo("ignored test should appear as pending"));
 
             Assert.That(featureInfo.Criteria.Count(), Is.EqualTo(2));
             Assert.That(featureInfo.Criteria.First().Name, Is.EqualTo("it builds the FeaturesInfo from the attributed source code"));
@@ -112,6 +118,9 @@ Scenario: a pending scenario
 
 @ignore @pending
 Scenario: another pending scenario
+
+@ignore @pending
+Scenario: ignored test should appear as pending
 
 ";
             Assert.That(
@@ -165,6 +174,7 @@ Scenario: another pending scenario
                     <h4>Pending:</h4>
                     <div class=""criteria"">a pending scenario</div>
                     <div class=""criteria"">another pending scenario</div>
+                    <div class=""criteria"">ignored test should appear as pending</div>
                 </div>
                 <div class=""superfluous-criteria text-warning bg-error"">
                     <h4>Superfluous:</h4>

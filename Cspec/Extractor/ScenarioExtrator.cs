@@ -29,7 +29,7 @@ namespace Cspec.Extractor
         }
 
         public IEnumerable<string> GetPendingCriteria(MemberInfo featureType, IEnumerable<Type> allDerivationsOfFeature)
-        {
+        { 
             var allCriteria = this.GetAllCriteria(featureType);
             var implementedCriteria = this.GetImplementedCriteriaAndScenarios(featureType, allDerivationsOfFeature);
 
@@ -61,6 +61,7 @@ namespace Cspec.Extractor
             return derivationsOfFeature.ToList()
                 .SelectMany(t => t.GetMethods())
                 .Where(m => Attribute.IsDefined(m, typeof(TestAttribute)))
+                .Where(m => !Attribute.IsDefined(m, typeof(IgnoreAttribute)))
                 .Select(theMethod => new { TheAttribute = this.GetTestAttribute(theMethod), TheMethod = theMethod })
                 .Select(
                     x =>
