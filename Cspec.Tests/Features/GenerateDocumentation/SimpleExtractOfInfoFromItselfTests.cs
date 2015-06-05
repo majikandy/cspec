@@ -64,34 +64,52 @@ namespace Cspec.Tests.Features.GenerateDocumentation
         private void then_I_should_see_a_representation_of_this_feature()
         {
             var featureInfo = this.extractedFeatures.Single();
-            
-            Assert.That(featureInfo.AcceptanceDescription.First(), Is.EqualTo("In order to see a nice output"));
-            Assert.That(featureInfo.AcceptanceDescription.Skip(1).First(), Is.EqualTo("As a dev team member"));
-            Assert.That(featureInfo.AcceptanceDescription.Skip(2).First(), Is.EqualTo("I want to extract features from the source code"));
-            
+
             Assert.That(featureInfo.Name, Is.EqualTo("GenerateDocumentation"));
 
-            Assert.That(featureInfo.PendingCriteria.Count(), Is.EqualTo(3));
-            Assert.That(featureInfo.PendingCriteria.First(), Is.EqualTo("a pending scenario"));
-            Assert.That(featureInfo.PendingCriteria.Skip(1).First(), Is.EqualTo("another pending scenario"));
-            Assert.That(featureInfo.PendingCriteria.Skip(2).First(), Is.EqualTo("ignored test should appear as pending"));
-
-            Assert.That(featureInfo.Criteria.Count(), Is.EqualTo(2));
-            Assert.That(featureInfo.Criteria.First().Name, Is.EqualTo("it builds the FeaturesInfo from the attributed source code"));
-            Assert.That(featureInfo.Criteria.First().TestMethodName, Is.EqualTo("should_build_from_attributed_test_code"));
-            
-            Assert.That(featureInfo.Criteria.First().GivenWhenThens.First(), Is.EqualTo("given current assembly"));
-            Assert.That(featureInfo.Criteria.First().GivenWhenThens.Skip(1).First(), Is.EqualTo("when extracting features"));
-            Assert.That(featureInfo.Criteria.First().GivenWhenThens.Skip(2).First(), Is.EqualTo("then I should see a representation of this feature"));
-            Assert.That(featureInfo.Criteria.First().GivenWhenThens.Skip(3).First(), Is.EqualTo("then I should be able to produce this feature in gherkin"));
-            Assert.That(featureInfo.Criteria.First().GivenWhenThens.Skip(4).First(), Is.EqualTo("then I should be able to produce this feature in html"));
-
-            Assert.That(featureInfo.Criteria.Skip(1).First().Name, Is.EqualTo("it builds the FeaturesInfo from the attributed source code"));
-            Assert.That(featureInfo.Criteria.Skip(1).First().TestMethodName, Is.EqualTo("should_show_you_can_have_multiple_tests_per_scenario"));
-            Assert.That(featureInfo.Criteria.Skip(1).First().GivenWhenThens.First(), Is.EqualTo("when without a given and a param of(3)"));
-            Assert.That(featureInfo.Criteria.Skip(1).First().GivenWhenThens.Skip(1).First(), Is.EqualTo("then only exists to check docuementation extraction works"));
+            CheckDescription(featureInfo.AcceptanceDescription.ToList());
+            CheckCriteria(featureInfo.Criteria.ToList());
+            CheckPendingCriteria(featureInfo.PendingCriteria.ToList());
 
             Assert.That(featureInfo.SuperfluousCriteria.Count(), Is.EqualTo(1));
+        }
+
+        private static void CheckCriteria(List<CriteriaInfo> criteria)
+        {
+            Assert.That(criteria.Count(), Is.EqualTo(2));
+
+            var firstCriterion = criteria.First();
+
+            Assert.That(firstCriterion.Name, Is.EqualTo("it builds the FeaturesInfo from the attributed source code"));
+            Assert.That(firstCriterion.TestMethodName, Is.EqualTo("should_build_from_attributed_test_code"));
+
+            Assert.That(firstCriterion.GivenWhenThens.First(), Is.EqualTo("given current assembly"));
+            Assert.That(firstCriterion.GivenWhenThens.Skip(1).First(), Is.EqualTo("when extracting features"));
+            Assert.That(firstCriterion.GivenWhenThens.Third(), Is.EqualTo("then I should see a representation of this feature"));
+            Assert.That(firstCriterion.GivenWhenThens.Fourth(), Is.EqualTo("then I should be able to produce this feature in gherkin"));
+            Assert.That(firstCriterion.GivenWhenThens.Fifth(), Is.EqualTo("then I should be able to produce this feature in html"));
+
+            var secondCriterion = criteria.Second();
+
+            Assert.That(secondCriterion.Name, Is.EqualTo("it builds the FeaturesInfo from the attributed source code"));
+            Assert.That(secondCriterion.TestMethodName, Is.EqualTo("should_show_you_can_have_multiple_tests_per_scenario"));
+            Assert.That(secondCriterion.GivenWhenThens.First(), Is.EqualTo("when without a given and a param of(3)"));
+            Assert.That(secondCriterion.GivenWhenThens.Second(), Is.EqualTo("then only exists to check docuementation extraction works"));
+        }
+
+        private static void CheckPendingCriteria(List<string> pendingCriteria)
+        {
+            Assert.That(pendingCriteria.Count(), Is.EqualTo(3));
+            Assert.That(pendingCriteria.First(), Is.EqualTo("a pending scenario"));
+            Assert.That(pendingCriteria.Second(), Is.EqualTo("another pending scenario"));
+            Assert.That(pendingCriteria.Third(), Is.EqualTo("ignored test should appear as pending"));
+        }
+
+        private static void CheckDescription(List<string> acceptanceDescription)
+        {
+            Assert.That(acceptanceDescription.First(), Is.EqualTo("In order to see a nice output"));
+            Assert.That(acceptanceDescription.Second(), Is.EqualTo("As a dev team member"));
+            Assert.That(acceptanceDescription.Third(), Is.EqualTo("I want to extract features from the source code"));
         }
 
         private void then_I_should_be_able_to_produce_this_feature_in_gherkin()
@@ -103,15 +121,15 @@ As a dev team member
 I want to extract features from the source code
 
 Scenario: should build from attributed test code
-    given current assembly
-    when extracting features
-    then I should see a representation of this feature
-    then I should be able to produce this feature in gherkin
-    then I should be able to produce this feature in html
+    Given current assembly
+    When extracting features
+    Then I should see a representation of this feature
+    Then I should be able to produce this feature in gherkin
+    Then I should be able to produce this feature in html
 
 Scenario: should show you can have multiple tests per scenario
-    when without a given and a param of(3)
-    then only exists to check docuementation extraction works
+    When without a given and a param of(3)
+    Then only exists to check docuementation extraction works
 
 @ignore @pending
 Scenario: a pending scenario

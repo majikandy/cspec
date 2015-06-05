@@ -26,5 +26,15 @@ namespace Cspec.Common
         {
             return theString.Replace(" ", string.Empty);
         }
+
+        public static string ToCapitalisedSentence(this string theString)
+        {
+            if (string.IsNullOrWhiteSpace(theString))
+            {
+                return theString;
+            }
+
+            return char.ToUpper(theString[0]) + theString.Substring(1);
+        }
     }
 }

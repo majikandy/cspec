@@ -27,7 +27,7 @@ namespace Cspec.Generators
                     stringBuilder.AppendLine("Scenario: {0}".With(scenario.TestMethodName.Replace("_", " ")));
                     foreach (var step in scenario.GivenWhenThens)
                     {
-                        stringBuilder.AppendLine("    {0}".With(step));
+                        stringBuilder.AppendLine("    {0}".With(step.ToCapitalisedSentence()));
                     }
                     stringBuilder.AppendLine();
                 }

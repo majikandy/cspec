@@ -7,7 +7,7 @@
 
 ### How is this achieved? ###
 
-It's all C#, and it's not gherkin! It's simpler than that. It's bullet points to define the acceptance criteria. 
+It's all C#, and it's not driven by gherkin! It's simpler than that. It's bullet points to define the acceptance criteria. 
 
 With CSpec, Given When Then (GWT) is still relevant, but it isn't the first class citizen that it is with other frameworks. 
 
@@ -46,7 +46,7 @@ I love cucumber with it's simplicity of the business language features files in 
 
 This upfront of defining the steps in too much detail prior to automating is the cause of the problem rather than the tooling.
 
-##The real world dont' use GWT to talk, so why do we do it in software ?
+##The real world don't talk GWT to talk, so why do we do it in software ?
 
 Because it is expressive! That's why we still need it, we just need it a fraction later in the process.
 
