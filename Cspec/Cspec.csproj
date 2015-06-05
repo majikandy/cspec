@@ -56,7 +56,7 @@
     <Compile Include="Generators\GeneratorBase.cs" />
     <Compile Include="Generators\GherkinFeatureGenerator.cs" />
     <Compile Include="Extractor\GivenWhenThensExtractor.cs" />
-    <Compile Include="Generators\HtmlTextWriterExtensions.cs" />
+    <Compile Include="Common\HtmlTextWriterExtensions.cs" />
     <Compile Include="Extractor\IExtractFeatureDescription.cs" />
     <Compile Include="Extractor\IExtractGivenWhenThens.cs" />
     <Compile Include="Extractor\IExtractScenarios.cs" />
