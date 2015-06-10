@@ -10,7 +10,9 @@
         "it builds the FeaturesInfo from the attributed source code",
         "a pending scenario",
         "another pending scenario",
-        "ignored test should appear as pending"}
+        "ignored test should appear as pending",
+        "matches tests, within classes matching the criteria name without need for description attribute"
+    }
     )]
 
     public class GenerateDocumentationFeature

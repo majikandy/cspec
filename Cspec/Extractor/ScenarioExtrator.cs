@@ -62,14 +62,16 @@ namespace Cspec.Extractor
                 .SelectMany(t => t.GetMethods())
                 .Where(m => Attribute.IsDefined(m, typeof(TestAttribute)))
                 .Where(m => !Attribute.IsDefined(m, typeof(IgnoreAttribute)))
-                .Select(theMethod => new { TheAttribute = this.GetTestAttribute(theMethod), TheMethod = theMethod })
+                .Select(theMethod => new { TheAttribute = this.GetTestAttribute(theMethod), TheMethod = theMethod, TheClassItIsIn = theMethod.DeclaringType.Name })
                 .Select(
                     x =>
                     new CriteriaInfo(
-                        name: x.TheAttribute.Description,
+                        name: x.TheAttribute.Description ?? x.TheClassItIsIn.TrasformCamelOrSnakeToEnglish(),
                         testMethodName: x.TheMethod.Name,
                         givenWhenThens: this.givenWhenThensExtractor.GetGivenWhenThens(x.TheMethod.Name, derivationsOfFeature)));
         }
+
+        
 
         private TestAttribute GetTestAttribute(MethodInfo methodInfo)
         {

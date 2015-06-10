@@ -72,7 +72,13 @@ namespace Cspec.Extractor
 
             var sourceFiles = derivationsClassNames
                 .Select(x => Directory.GetFiles(featureFilesRootPath, x.Name + ".cs", SearchOption.AllDirectories)
-                .SingleOrDefault());
+                .SingleOrDefault()).ToList();
+            
+            if (sourceFiles.Any(x => x == null))
+            {
+                var affectedFiles = derivationsClassNames.Select(x => x.Name).Except(sourceFiles.Select(x => Path.GetFileNameWithoutExtension(x)));
+                throw new CspecException("Test classes that derive from <*.>Feature.cs classes must be in their own files and have a matching file name (Cspec requires this):\n {0}".With(string.Join("\n ", affectedFiles)));
+            }
 
             var missingClassFiles = derivationsClassNames.Select(d => d.Name.ToLower())
                 .Except(sourceFiles.Select(s => Path.GetFileNameWithoutExtension(s).ToLower()));

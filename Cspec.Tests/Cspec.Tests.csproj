@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Features\GenerateDocumentationFeature.cs" />
+    <Compile Include="Features\GenerateDocumentation\MatchesTestsWithinClassesMatchingTheCriteriaNameWithoutNeedForDescriptionAttribute.cs" />
     <Compile Include="Features\GenerateDocumentation\extract_of_info_from_itself_tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

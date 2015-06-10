@@ -36,5 +36,11 @@ namespace Cspec.Common
 
             return char.ToUpper(theString[0]) + theString.Substring(1);
         }
+
+        public static string TrasformCamelOrSnakeToEnglish(this string theString)
+        {
+            var spaced = Regex.Replace(theString, "(\\B[A-Z])", " $1");
+            return spaced.Replace("_", " ").ToLower();
+        }
     }
 }
