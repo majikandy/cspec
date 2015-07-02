@@ -1,6 +1,7 @@
 namespace Cspec.Generators
 {
     using System.Collections.Generic;
+    using System.Reflection;
 
     using Cspec.Extractor;
 
@@ -8,6 +9,6 @@ namespace Cspec.Generators
     {
         string Build(IEnumerable<FeatureInfo> features);
 
-        string Build();
+        string Build(Assembly assemblyContainingFeatures);
     }
 }

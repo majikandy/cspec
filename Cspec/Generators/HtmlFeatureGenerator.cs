@@ -41,8 +41,8 @@ namespace Cspec.Generators
 
         private void WriteFeature(HtmlTextWriter writer, FeatureInfo featureInfo)
         {
-            var featureName = featureInfo.Name.Replace("Feature", string.Empty);
-            var featureCollapserName = featureName + "Collapser";
+            var featureId = featureInfo.Id;
+            var featureCollapserName = featureId + "Collapser";
 
             writer.OpenDiv("feature well");
                 writer.AddAttribute(HtmlTextWriterAttribute.Class, "h2");
@@ -50,7 +50,7 @@ namespace Cspec.Generators
                 writer.AddAttribute(HtmlTextWriterAttribute.Href, "#" + featureCollapserName);
                 writer.AddAttribute("aria-expanded", "false");
                 writer.AddAttribute("aria-controls", featureCollapserName);
-                writer.WriteTag(HtmlTextWriterTag.A, featureName);
+                writer.WriteTag(HtmlTextWriterTag.A, featureInfo.Name);
 
                 writer.AddAttribute("id", featureCollapserName);
                 writer.OpenDiv("collapse");

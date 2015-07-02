@@ -65,7 +65,7 @@ namespace Cspec.Tests.Features.GenerateDocumentation
         {
             var featureInfo = this.extractedFeatures.Single();
 
-            Assert.That(featureInfo.Name, Is.EqualTo("GenerateDocumentation"));
+            Assert.That(featureInfo.Id, Is.EqualTo("GenerateDocumentation"));
 
             CheckDescription(featureInfo.AcceptanceDescription.ToList());
             CheckCriteria(featureInfo.Criteria.ToList());
@@ -122,7 +122,7 @@ namespace Cspec.Tests.Features.GenerateDocumentation
 
         private void then_I_should_be_able_to_produce_this_feature_in_gherkin()
         {
-            var expectedGherkin = @"Feature: GenerateDocumentation
+            var expectedGherkin = @"Feature: Generate documentation
 
 In order to see a nice output
 As a dev team member
@@ -169,7 +169,7 @@ Scenario: ignored test should appear as pending
 
     <div class=""features"">
         <div class=""feature well"">
-            <a class=""h2"" data-toggle=""collapse"" href=""#GenerateDocumentationCollapser"" aria-expanded=""false"" aria-controls=""GenerateDocumentationCollapser"">GenerateDocumentation</a>
+            <a class=""h2"" data-toggle=""collapse"" href=""#GenerateDocumentationCollapser"" aria-expanded=""false"" aria-controls=""GenerateDocumentationCollapser"">Generate documentation</a>
             <div id=""GenerateDocumentationCollapser"" class=""collapse"">
                 <br />
                 <div class=""description well"">

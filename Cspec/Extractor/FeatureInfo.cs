@@ -4,10 +4,12 @@ namespace Cspec.Extractor
 
     public class FeatureInfo
     {
+        public string Id { get; set; }
         public string Name { get; set; }
+
         public IEnumerable<string> AcceptanceDescription { get; set; }
         public IEnumerable<CriteriaInfo> Criteria { get; set; }
         public IEnumerable<string> PendingCriteria { get; set; }
         public IEnumerable<CriteriaInfo> SuperfluousCriteria { get; set; }
-   }
+    }
 }

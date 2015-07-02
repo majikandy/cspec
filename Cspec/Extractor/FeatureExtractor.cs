@@ -4,6 +4,7 @@ namespace Cspec.Extractor
     using System.Linq;
     using System.Reflection;
 
+    using Cspec.Common;
     using Cspec.Framework;
 
     public class FeatureExtractor
@@ -32,9 +33,12 @@ namespace Cspec.Extractor
             {
                 var allDerivationsOfFeature = assembly.GetTypes().Where(x => featureType.IsAssignableFrom(x) && x != featureType).ToList();
 
+                var featureName = featureType.Name.Replace("Feature", string.Empty);
+
                 features.Add(new FeatureInfo()
                     {
-                        Name = featureType.Name.Replace("Feature", string.Empty),
+                        Id = featureName,
+                        Name = featureName.TrasformCamelOrSnakeToEnglish().ToCapitalisedSentence(),
                         Criteria = this.scenarioExtrator.GetImplementedCriteriaAndScenarios(featureType, allDerivationsOfFeature),
                         PendingCriteria = this.scenarioExtrator.GetPendingCriteria(featureType, allDerivationsOfFeature), 
                         AcceptanceDescription = this.featureDescriptionExtractor.GetFeatureDescription(featureType),

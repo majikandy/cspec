@@ -9,13 +9,13 @@ namespace Cspec.Generators
     {
         public abstract string Build(IEnumerable<FeatureInfo> features);
 
-        public string Build()
+        public string Build(Assembly assemblyContainingFeatures)
         {
             return this.Build(
                 new FeatureExtractor(
                     new FeatureDescriptionExtractor(),
                     new ScenarioExtrator(new GivenWhenThensExtractor(new FeatureFilePathProvider()))).ExtractFeatures(
-                        Assembly.GetExecutingAssembly()));
+                        assemblyContainingFeatures));
         }
     }
 }
