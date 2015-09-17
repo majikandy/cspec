@@ -101,3 +101,8 @@ There is also an exe provided in the runner folder with the nuget package - this
     eg. 
       cspec.generator.exe HTML bin\release\AcceptanceTests.dll Docs\Features.html
 
+It also needs to know where the source files are, so if they aren't in \Features from where you are running the generator then you'll need to provide this path in the cspec.generator.exe.config file
+
+     <appSettings>
+        <add key="featureFilesRootPath" value="path_here"/>
+     </appSettings>
