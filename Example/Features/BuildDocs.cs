@@ -12,11 +12,12 @@ namespace Example.Features
     using Cspec.Extractor;
     using Cspec.Generators;
 
-    using NUnit.Framework;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    [TestClass]
     public class BuildDocs
     {
-        [Test]
+        [TestMethod]
         public void generate_features()
         {
             var features = new FeatureExtractor().ExtractFeatures(Assembly.GetExecutingAssembly());

@@ -8,14 +8,15 @@ namespace Cspec.Tests.Features.GenerateDocumentation
     using Cspec.Extractor;
     using Cspec.Generators;
 
-    using NUnit.Framework;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    [TestClass]
     public class extract_of_info_from_itself_tests : GenerateDocumentationFeature
     {
         private Assembly assembly;
         private IEnumerable<FeatureInfo> extractedFeatures;
 
-        [Test(Description = "it builds the FeaturesInfo from the attributed source code")]
+        [TestMethod,Description("it builds the FeaturesInfo from the attributed source code")]
         public void should_build_from_attributed_test_code ()
         {
             this.given_current_assembly();
@@ -25,19 +26,19 @@ namespace Cspec.Tests.Features.GenerateDocumentation
             this.then_I_should_be_able_to_produce_this_feature_in_html();
         }
 
-        [Test(Description = "it builds the FeaturesInfo from the attributed source code")]
+        [TestMethod,Description("it builds the FeaturesInfo from the attributed source code")]
         public void should_show_you_can_have_multiple_tests_per_scenario()
         {
             this.when_without_a_given_and_a_param_of(3);
             this.then_only_exists_to_check_docuementation_extraction_works();
         }
 
-        [Test(Description = "something not required")]
+        [TestMethod, Description("something not required")]
         public void should_show_in_report_as_not_required()
         {
         }
 
-        [Ignore, Test(Description = "ignored test should appear as pending")]
+        [Ignore, TestMethod, Description("ignored test should appear as pending")]
         public void ignore_test_appears_as_pending()
         {
         }
@@ -65,59 +66,59 @@ namespace Cspec.Tests.Features.GenerateDocumentation
         {
             var featureInfo = this.extractedFeatures.Single();
 
-            Assert.That(featureInfo.Id, Is.EqualTo("GenerateDocumentation"));
+            Assert.AreEqual("GenerateDocumentation", featureInfo.Id);
 
             CheckDescription(featureInfo.AcceptanceDescription.ToList());
             CheckCriteria(featureInfo.Criteria.ToList());
             CheckPendingCriteria(featureInfo.PendingCriteria.ToList());
 
-            Assert.That(featureInfo.SuperfluousCriteria.Count(), Is.EqualTo(1));
+            Assert.AreEqual(1, featureInfo.SuperfluousCriteria.Count());
         }
 
         private static void CheckCriteria(List<CriteriaInfo> criteria)
         {
-            Assert.That(criteria.Count(), Is.EqualTo(3));
+            Assert.AreEqual(3, criteria.Count());
 
             var firstCriterion = criteria.First();
 
-            Assert.That(firstCriterion.Name, Is.EqualTo("matches tests within classes matching the criteria name without need for description attribute"));
-            Assert.That(firstCriterion.TestMethodName, Is.EqualTo("a_test_covering_criteria_specified_in_this_class_name"));
-            Assert.That(firstCriterion.GivenWhenThens.First(), Is.EqualTo("given"));
-            Assert.That(firstCriterion.GivenWhenThens.Second(), Is.EqualTo("when"));
-            Assert.That(firstCriterion.GivenWhenThens.Third(), Is.EqualTo("then"));
+            Assert.AreEqual(firstCriterion.Name,"matches tests within classes matching the criteria name without need for description attribute");
+            Assert.AreEqual(firstCriterion.TestMethodName,"a_test_covering_criteria_specified_in_this_class_name");
+            Assert.AreEqual(firstCriterion.GivenWhenThens.First(),"given");
+            Assert.AreEqual(firstCriterion.GivenWhenThens.Second(), "when");
+            Assert.AreEqual(firstCriterion.GivenWhenThens.Third(), "then");
 
             var secondCriterion = criteria.Second();
 
-            Assert.That(secondCriterion.Name, Is.EqualTo("it builds the FeaturesInfo from the attributed source code"));
-            Assert.That(secondCriterion.TestMethodName, Is.EqualTo("should_build_from_attributed_test_code"));
+            Assert.AreEqual(secondCriterion.Name, "it builds the FeaturesInfo from the attributed source code");
+            Assert.AreEqual(secondCriterion.TestMethodName, "should_build_from_attributed_test_code");
 
-            Assert.That(secondCriterion.GivenWhenThens.First(), Is.EqualTo("given current assembly"));
-            Assert.That(secondCriterion.GivenWhenThens.Second(), Is.EqualTo("when extracting features"));
-            Assert.That(secondCriterion.GivenWhenThens.Third(), Is.EqualTo("then I should see a representation of this feature"));
-            Assert.That(secondCriterion.GivenWhenThens.Fourth(), Is.EqualTo("then I should be able to produce this feature in gherkin"));
-            Assert.That(secondCriterion.GivenWhenThens.Fifth(), Is.EqualTo("then I should be able to produce this feature in html"));
+            Assert.AreEqual(secondCriterion.GivenWhenThens.First(), "given current assembly");
+            Assert.AreEqual(secondCriterion.GivenWhenThens.Second(), "when extracting features");
+            Assert.AreEqual(secondCriterion.GivenWhenThens.Third(), "then I should see a representation of this feature");
+            Assert.AreEqual(secondCriterion.GivenWhenThens.Fourth(), "then I should be able to produce this feature in gherkin");
+            Assert.AreEqual(secondCriterion.GivenWhenThens.Fifth(), "then I should be able to produce this feature in html");
 
             var thirdCriterion = criteria.Third();
 
-            Assert.That(thirdCriterion.Name, Is.EqualTo("it builds the FeaturesInfo from the attributed source code"));
-            Assert.That(thirdCriterion.TestMethodName, Is.EqualTo("should_show_you_can_have_multiple_tests_per_scenario"));
-            Assert.That(thirdCriterion.GivenWhenThens.First(), Is.EqualTo("when without a given and a param of(3)"));
-            Assert.That(thirdCriterion.GivenWhenThens.Second(), Is.EqualTo("then only exists to check docuementation extraction works"));
+            Assert.AreEqual(thirdCriterion.Name, "it builds the FeaturesInfo from the attributed source code");
+            Assert.AreEqual(thirdCriterion.TestMethodName, "should_show_you_can_have_multiple_tests_per_scenario");
+            Assert.AreEqual(thirdCriterion.GivenWhenThens.First(), "when without a given and a param of(3)");
+            Assert.AreEqual(thirdCriterion.GivenWhenThens.Second(), "then only exists to check docuementation extraction works");
         }
 
         private static void CheckPendingCriteria(List<string> pendingCriteria)
         {
-            Assert.That(pendingCriteria.Count(), Is.EqualTo(3));
-            Assert.That(pendingCriteria.First(), Is.EqualTo("a pending scenario"));
-            Assert.That(pendingCriteria.Second(), Is.EqualTo("another pending scenario"));
-            Assert.That(pendingCriteria.Third(), Is.EqualTo("ignored test should appear as pending"));
+            Assert.AreEqual(pendingCriteria.Count(), (3));
+            Assert.AreEqual(pendingCriteria.First(), "a pending scenario");
+            Assert.AreEqual(pendingCriteria.Second(), "another pending scenario");
+            Assert.AreEqual(pendingCriteria.Third(), "ignored test should appear as pending");
         }
 
         private static void CheckDescription(List<string> acceptanceDescription)
         {
-            Assert.That(acceptanceDescription.First(), Is.EqualTo("In order to see a nice output"));
-            Assert.That(acceptanceDescription.Second(), Is.EqualTo("As a dev team member"));
-            Assert.That(acceptanceDescription.Third(), Is.EqualTo("I want to extract features from the source code"));
+            Assert.AreEqual(acceptanceDescription.First(), "In order to see a nice output");
+            Assert.AreEqual(acceptanceDescription.Second(), "As a dev team member");
+            Assert.AreEqual(acceptanceDescription.Third(), "I want to extract features from the source code");
         }
 
         private void then_I_should_be_able_to_produce_this_feature_in_gherkin()
@@ -154,9 +155,9 @@ Scenario: another pending scenario
 Scenario: ignored test should appear as pending
 
 ";
-            Assert.That(
+            Assert.AreEqual(
                 new GherkinFeatureGenerator().Build(this.extractedFeatures), 
-                Is.EqualTo(expectedGherkin));
+                expectedGherkin);
         }
 
         private void then_I_should_be_able_to_produce_this_feature_in_html()
@@ -228,9 +229,9 @@ Scenario: ignored test should appear as pending
 </div>
 ";
 
-            Assert.That(
+            Assert.AreEqual(
                 new HtmlFeatureGenerator().Build(this.extractedFeatures), 
-                Is.EqualTo(expectedHtml.TrimWhitespaceWithinHtml()));
+                expectedHtml.TrimWhitespaceWithinHtml());
         }
     }
 }

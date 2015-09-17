@@ -1,14 +1,15 @@
 ﻿namespace Example.Features.Example.Scenarios
 {
-    using NUnit.Framework;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    [TestClass]
     public class adding_3_and_4_gives_7 : ExampleFeature
     {
         private int firstNumber;
         private int secondNumber;
         private int result;
 
-        [Test(Description = "Adding 3 and 4 gives 7")]
+        [TestMethod, Description("Adding 3 and 4 gives 7")]
         public void adding_3_to_4_should_give_me_7()
         {
             this.given_first_numer_of(4);
@@ -17,7 +18,7 @@
             this.then_result_should_be(7);
         }
 
-        [Test(Description = "Adding 3 and 4 gives 7")]
+        [TestMethod, Description("Adding 3 and 4 gives 7")]
         public void adding_4_to_3_should_give_me_7()
         {
             this.given_first_numer_of(3);
@@ -43,7 +44,7 @@
 
         private void then_result_should_be(int expectedResult)
         {
-            Assert.That(this.result, Is.EqualTo(expectedResult));
+            Assert.AreEqual(expectedResult, this.result);
         }
     }
 }

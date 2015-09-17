@@ -69,6 +69,7 @@ namespace Cspec.Extractor
         private IEnumerable<string> GetCsFilePaths(IEnumerable<Type> derivationsClassNames)
         {
             var featureFilesRootPath = this.featuresConfig.FeatureFilesRootPath ?? @"..\..\Features";
+            Console.WriteLine("Using path for features: " + featureFilesRootPath);
 
             var sourceFiles = derivationsClassNames
                 .Select(x => Directory.GetFiles(featureFilesRootPath, x.Name + ".cs", SearchOption.AllDirectories)

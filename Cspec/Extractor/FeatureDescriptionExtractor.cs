@@ -19,7 +19,7 @@ namespace Cspec.Extractor
 
         private string GetAcceptanceAttribute<T>(MemberInfo featureType) where T : IAcceptanceAttribute
         {
-            return ((IAcceptanceAttribute)featureType.GetCustomAttributes().Single(x => x.GetType() == typeof(T))).Text;
+            return ((IAcceptanceAttribute)featureType.GetCustomAttributes(true).Single(x => x.GetType() == typeof(T))).Text;
         }
     }
 }

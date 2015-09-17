@@ -1,16 +1,19 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>$id$</id>
+    <id>$id$.MsTest</id>
     <version>$version$</version>
-    <title>$title$</title>
+    <title>$title$.MsTest</title>
     <authors>Andy Davis</authors>
     <owners>Andy Davis</owners>
     <projectUrl>https://github.com/majikandy/cspec</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>An acceptance test driven development framework where C# is a first class citizen. It generates Gherkin and a report rather than that being the starting point.</description>
-    <releaseNotes>nunit 2.6.4 minimum requirement, enforced supply of assembly containing the features to avoid features not found when run from assembly not containing the features to be parsed, converted camel case feature titles into words with spaces</releaseNotes>
+    <description>Exe file to generate the Features file incase using an test is difficult - eg build server.</description>
+    <releaseNotes>MsTest version of CSpec for legacy solutions</releaseNotes>
     <copyright>Copyright 2015</copyright>
-    <tags>tenkai</tags>
+    <tags>tenkai, testing</tags>
   </metadata>
+  <files>
+    <file src="runner\*.*" target="runner" />
+  </files>
 </package>

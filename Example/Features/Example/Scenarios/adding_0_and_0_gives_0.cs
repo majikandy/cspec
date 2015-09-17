@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Example.Features.Example.Scenarios
 {
-    using NUnit.Framework;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    [TestClass]
     public class adding_0_and_0_gives_0 : ExampleFeature
     {
-        [Test(Description = "adding_0_and_0_gives_0")]
+        [TestMethod,Description("adding_0_and_0_gives_0")]
         public void do_unnecessary_test()
         {
             given_an_extra_test();
