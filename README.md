@@ -90,5 +90,14 @@ And now, like magic, documentation will be produced for you :)
 Well, almost. Add a test somewhere with the following code and stick it in the build.
 
     new GherkinFeatureGenerator().Build();
-	// or
-	new HtmlFeatureGenerator().Build
+    new HtmlFeatureGenerator().Build();
+
+There is also an exe provided in the runner folder with the nuget package - this is really useful for running on a build server like teamcity or if you prefer for there not to be an extra test.
+
+    C:\Projects\Tenkai\cspec\Cspec.Generator\bin\Release>Cspec.Generator.exe
+    Usage:
+      cspec.generator.exe <report type> <assembly file path> <output file path>
+
+    eg. 
+      cspec.generator.exe HTML bin\release\AcceptanceTests.dll Docs\Features.html
+
