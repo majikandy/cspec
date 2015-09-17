@@ -1,5 +1,9 @@
 ## CSpec ##
 
+#nuget packages
+  nunit: Install-Package cspec
+ mstest: Install-Package cspec.mstest
+ 
 **CSpec** is an acceptance test framework for C#. It provides two things that teams may prefer over specflow or other bdd frameworks.
 
 - Use the full power of your favourite c# refactoring tools
@@ -7,13 +11,13 @@
 
 ### How is this achieved? ###
 
-It's all C#, and it's not driven by gherkin! It's simpler than that. It's bullet points to define the acceptance criteria. 
+It's all C#, and it's not driven by gherkin! It's simpler. It's bullet points to define the acceptance criteria. 
 
 With CSpec, Given When Then (GWT) is still relevant, but it isn't the first class citizen that it is with other frameworks. 
 
-Let's face it, anyone who has worked with Given When Then knows it is  expressive, but it is also clunky, repetitive, and noisy. If you look at documentation output, it's far too verbose. 
+Let's face it, anyone who has worked with Given When Then knows it is expressive, but it is also clunky, repetitive, and noisy. If you look at documentation output, it's far too verbose. 
 
-A common scenario I have encountered is when you take a feature file with given when then in it and you find that things are worded as slightly the wrong level, there is either too much or too little detail for the automation, so you decide to change it. But changing it means changing it in every block (the scenarios), then you want to  slightly reword something else and it's the same e problem again. It just gets messy.
+A common scenario I have encountered is when you take a feature file with given when then in it and you find that things are worded as slightly the wrong level, there is either too much or too little detail for the automation, so you decide to change it. But changing it means changing it in every block (the scenarios), then you want to slightly reword something else and it's the same e problem again. It just gets messy.
 
 The business owner just wanted to describe the feature, they don't want all the details of all the test cases and scenarios, just confidence that it's covered.
 
@@ -56,53 +60,75 @@ CSpec is built with a specific process in mind and that process is bullet points
 
 So, your tests are no different to what you know now, they are simple NUnit Tests. With one addition, a Description attribute to show which bullet point from the features that you are covering with that test (or tests)
 
-    [Test(Description="there is a login box where a signup up user can log in")]
+  public class LoginTests : ExampleFeature
+  {
+    [Test(Description="there is a login box where a signed up user can log in")]
     public void login_box_is_on_the_homepage_as_popup()
     {
-       given_i_am_on_the_homepage();
-       when_i_click_sign_in();
-       then_i_am_shown_a_popup_where_i_can_login();
+      given_i_am_on_the_homepage();
+      when_i_click_sign_in();
+      then_i_am_shown_a_popup_where_i_can_login();
     }
+  }
 
-How do I oraganise this against the Feature?
+This *MUST* inherit from the Feature marker class. This is to enforce test organisation rather than for true inheritance.
 
-Inherit that test class for a Feature marker class that has the attributes used to represent that feature.
+The marker class has the attributes that make this recognised as a feature as well as the actual documentation.
 
-    using Cspec.Framework;
+  using Cspec.Framework;
 
-    [In_order_to("keep my data private")]
-    [As_a("customer")]
-    [I_want("I want any personal data behind a login area")]
-    
-    [Criteria(new []{ 
-        "there is a login box where a signup up user can log in",
-        "all errors with login give generic message of 'invalid login attempt'",
-        "successful login takes user to the dashboard"
-    })]
+  [In order to("keep my data private")]
+  [As a("customer")]
+  [I want("I want any personal data behind a login area")]
+  
+  [Criteria(new []{ 
+    "there is a login box where a signed up user can log in",
+    "all errors with login give generic message of 'invalid login attempt'",
+    "successful login takes user to the dashboard"
+  })]
 
-    public class ExampleFeature
+  public class ExampleFeature
+  {
+    // marker class for the feature
+  }
+
+This is taken a stage further and you can omit the Description from the Test definitions if you place them in a file with the same name (CamelCase or snake case) as the criteria, eg.
+
+  public class there_is_a_login_box_where_a_signed_up_user_can_log_in : ExampleFeature
+  {
+    [Test]
+    public void_login_box_is_on_the_homepage_as_popup()
     {
-        // marker class for the feature
+      given_i_am_on_the_homepage();
+      when_i_click_sign_in();
+      then_i_am_shown_a_popup_where_i_can_login();
     }
+  }
 
-And now, like magic, documentation will be produced for you :)
+Which now makes it a very obvious place for a second scenario - I like to put these classes in a folder called scenarios under each feature folder.
+
+That's all there is to it - Write your Tests like normal, but use basic Given When Then methods inside the test (because these contribute to the documention - and put the actually nitty gritty code inside there.
+
+*That's all there is to it*
 
 Well, almost. Add a test somewhere with the following code and stick it in the build.
 
-    new GherkinFeatureGenerator().Build();
-    new HtmlFeatureGenerator().Build();
+  new GherkinFeatureGenerator().Build();
+  new HtmlFeatureGenerator().Build();
 
 There is also an exe provided in the runner folder with the nuget package - this is really useful for running on a build server like teamcity or if you prefer for there not to be an extra test.
 
-    C:\Projects\Tenkai\cspec\Cspec.Generator\bin\Release>Cspec.Generator.exe
-    Usage:
-      cspec.generator.exe <report type> <assembly file path> <output file path>
+  C:\Projects\Tenkai\cspec\Cspec.Generator\bin\Release>Cspec.Generator.exe
+  Usage:
+   cspec.generator.exe <report type> <assembly file path> <output file path>
 
-    eg. 
-      cspec.generator.exe HTML bin\release\AcceptanceTests.dll Docs\Features.html
+  eg. 
+   cspec.generator.exe HTML bin\release\AcceptanceTests.dll Docs\Features.html
 
-It also needs to know where the source files are, so if they aren't in \Features from where you are running the generator then you'll need to provide this path in the cspec.generator.exe.config file
+The exe generator needs to know where the source files are as it doesn't use reflection, so if they aren't in \Features from where you are running the generator then you'll need to provide this path in the cspec.generator.exe.config file
 
-     <appSettings>
-        <add key="featureFilesRootPath" value="path_here"/>
-     </appSettings>
+   <appSettings>
+    <add key="featureFilesRootPath" value="path here"/>
+   </appSettings>
+   
+
