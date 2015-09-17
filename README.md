@@ -1,8 +1,8 @@
 ## CSpec ##
 
-#nuget packages
-  nunit: Install-Package cspec
- mstest: Install-Package cspec.mstest
+####nuget packages
+.nunit: Install-Package cspec
+.mstest: Install-Package cspec.mstest
  
 **CSpec** is an acceptance test framework for C#. It provides two things that teams may prefer over specflow or other bdd frameworks.
 
