@@ -60,50 +60,49 @@ CSpec is built with a specific process in mind and that process is bullet points
 
 So, your tests are no different to what you know now, they are simple NUnit Tests. With one addition, a Description attribute to show which bullet point from the features that you are covering with that test (or tests)
 
-  public class LoginTests : ExampleFeature
-  {
-    [Test(Description="there is a login box where a signed up user can log in")]
-    public void login_box_is_on_the_homepage_as_popup()
+    public class LoginTests : ExampleFeature
     {
-      given_i_am_on_the_homepage();
-      when_i_click_sign_in();
-      then_i_am_shown_a_popup_where_i_can_login();
+         [Test(Description="there is a login box where a signed up user can log in")]
+         public void login_box_is_on_the_homepage_as_popup()
+         {
+             given_i_am_on_the_homepage();
+             when_i_click_sign_in();
+             then_i_am_shown_a_popup_where_i_can_login();
+         }
     }
-  }
 
 This *MUST* inherit from the Feature marker class. This is to enforce test organisation rather than for true inheritance.
 
 The marker class has the attributes that make this recognised as a feature as well as the actual documentation.
 
-  using Cspec.Framework;
+     using Cspec.Framework;
+     [In order to("keep my data private")]
+     [As a("customer")]
+     [I want("I want any personal data behind a login area")]
+ 
+     [Criteria(new []{ 
+       "there is a login box where a signed up user can log in",
+       "all errors with login give generic message of 'invalid login attempt'",
+       "successful login takes user to the dashboard"
+     })]
 
-  [In order to("keep my data private")]
-  [As a("customer")]
-  [I want("I want any personal data behind a login area")]
-  
-  [Criteria(new []{ 
-    "there is a login box where a signed up user can log in",
-    "all errors with login give generic message of 'invalid login attempt'",
-    "successful login takes user to the dashboard"
-  })]
-
-  public class ExampleFeature
-  {
-    // marker class for the feature
-  }
+     public class ExampleFeature
+     {
+        // marker class for the feature
+     }
 
 This is taken a stage further and you can omit the Description from the Test definitions if you place them in a file with the same name (CamelCase or snake case) as the criteria, eg.
 
-  public class there_is_a_login_box_where_a_signed_up_user_can_log_in : ExampleFeature
-  {
-    [Test]
-    public void_login_box_is_on_the_homepage_as_popup()
-    {
-      given_i_am_on_the_homepage();
-      when_i_click_sign_in();
-      then_i_am_shown_a_popup_where_i_can_login();
-    }
-  }
+     public class there_is_a_login_box_where_a_signed_up_user_can_log_in : ExampleFeature
+     {
+        [Test]
+        public void_login_box_is_on_the_homepage_as_popup()
+        {
+           given_i_am_on_the_homepage();
+           when_i_click_sign_in();
+           then_i_am_shown_a_popup_where_i_can_login();
+        }
+     }
 
 Which now makes it a very obvious place for a second scenario - I like to put these classes in a folder called scenarios under each feature folder.
 
@@ -113,22 +112,22 @@ That's all there is to it - Write your Tests like normal, but use basic Given Wh
 
 Well, almost. Add a test somewhere with the following code and stick it in the build.
 
-  new GherkinFeatureGenerator().Build();
-  new HtmlFeatureGenerator().Build();
+     new GherkinFeatureGenerator().Build();
+     //or
+     new HtmlFeatureGenerator().Build();
 
 There is also an exe provided in the runner folder with the nuget package - this is really useful for running on a build server like teamcity or if you prefer for there not to be an extra test.
 
-  C:\Projects\Tenkai\cspec\Cspec.Generator\bin\Release>Cspec.Generator.exe
-  Usage:
-   cspec.generator.exe <report type> <assembly file path> <output file path>
-
-  eg. 
-   cspec.generator.exe HTML bin\release\AcceptanceTests.dll Docs\Features.html
+    C:\Projects\Tenkai\cspec\Cspec.Generator\bin\Release>Cspec.Generator.exe
+    Usage:
+     cspec.generator.exe <report type> <assembly file path> <output file path>
+    eg. 
+     cspec.generator.exe HTML bin\release\AcceptanceTests.dll Docs\Features.html
 
 The exe generator needs to know where the source files are as it doesn't use reflection, so if they aren't in \Features from where you are running the generator then you'll need to provide this path in the cspec.generator.exe.config file
 
-   <appSettings>
-    <add key="featureFilesRootPath" value="path here"/>
-   </appSettings>
+    <appSettings>
+      <add key="featureFilesRootPath" value="path here"/>
+    </appSettings>
    
 
