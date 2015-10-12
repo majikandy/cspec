@@ -20,7 +20,7 @@ namespace Example.Features
         [TestMethod]
         public void generate_features()
         {
-            var features = new FeatureExtractor().ExtractFeatures(Assembly.GetExecutingAssembly());
+            var features = new FeatureExtractor(@"..\..\Features").ExtractFeatures(Assembly.GetExecutingAssembly());
             File.WriteAllText(@"..\..\Features.html", new HtmlFeatureGenerator().Build(features));
             File.WriteAllText(@"..\..\Features.txt", new GherkinFeatureGenerator().Build(features));
         }

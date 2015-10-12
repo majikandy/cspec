@@ -50,7 +50,6 @@
     <Compile Include="Extractor\CriteriaInfo.cs" />
     <Compile Include="Extractor\CriteriaNotSpecifiedException.cs" />
     <Compile Include="Extractor\FeatureDescriptionExtractor.cs" />
-    <Compile Include="Extractor\FeatureFilePathProvider.cs" />
     <Compile Include="Generators\GeneratorBase.cs" />
     <Compile Include="Generators\GherkinFeatureGenerator.cs" />
     <Compile Include="Extractor\GivenWhenThensExtractor.cs" />
@@ -59,7 +58,6 @@
     <Compile Include="Extractor\IExtractGivenWhenThens.cs" />
     <Compile Include="Extractor\IExtractScenarios.cs" />
     <Compile Include="Generators\IGenerateFeatures.cs" />
-    <Compile Include="Extractor\IGetFeatureFilesPath.cs" />
     <Compile Include="Extractor\ScenarioExtrator.cs" />
     <Compile Include="Extractor\CspecException.cs" />
     <Compile Include="Framework\As_aAttribute.cs" />
@@ -75,7 +73,9 @@
     <Compile Include="Common\StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Cspec.nuspec" />
+    <None Include="Cspec.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="runner\Cspec.Generator.exe.config" />
   </ItemGroup>

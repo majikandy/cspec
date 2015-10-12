@@ -9,6 +9,6 @@ namespace Cspec.Generators
     {
         string Build(IEnumerable<FeatureInfo> features);
 
-        string Build(Assembly assemblyContainingFeatures);
+        string Build(Assembly assemblyContainingFeatures, string featuresFolderPath = null);
     }
 }

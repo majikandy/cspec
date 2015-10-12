@@ -58,7 +58,7 @@ namespace Cspec.Tests.Features.GenerateDocumentation
 
         private void when_extracting_features()
         {
-            var featureExtractor = new FeatureExtractor(new FeatureDescriptionExtractor(), new ScenarioExtrator(new GivenWhenThensExtractor(new FeatureFilePathProvider())));
+            var featureExtractor = new FeatureExtractor(new FeatureDescriptionExtractor(), new ScenarioExtrator(new GivenWhenThensExtractor(@"..\..\Features")));
             this.extractedFeatures = featureExtractor.ExtractFeatures(this.assembly);
         }
 

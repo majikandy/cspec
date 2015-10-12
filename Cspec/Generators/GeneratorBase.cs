@@ -7,15 +7,23 @@ namespace Cspec.Generators
 
     public abstract class GeneratorBase : IGenerateFeatures
     {
+        private const string DefaultFeaturesFolder = @"..\..\Features";
+
         public abstract string Build(IEnumerable<FeatureInfo> features);
 
-        public string Build(Assembly assemblyContainingFeatures)
+        public string Build(Assembly assemblyContainingFeatures, string featuresFolderPath = null)
         {
+            if (featuresFolderPath == null)
+            {
+                featuresFolderPath = DefaultFeaturesFolder;
+            }
+
             return this.Build(
                 new FeatureExtractor(
                     new FeatureDescriptionExtractor(),
-                    new ScenarioExtrator(new GivenWhenThensExtractor(new FeatureFilePathProvider()))).ExtractFeatures(
-                        assemblyContainingFeatures));
+                    new ScenarioExtrator(new GivenWhenThensExtractor(featuresFolderPath)))
+                        .ExtractFeatures(assemblyContainingFeatures)
+                );
         }
     }
 }

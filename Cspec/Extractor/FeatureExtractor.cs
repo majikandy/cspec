@@ -20,7 +20,7 @@ namespace Cspec.Extractor
             this.scenarioExtrator = scenarioExtractor;
         }
 
-        public FeatureExtractor() : this (new FeatureDescriptionExtractor(), new ScenarioExtrator(new GivenWhenThensExtractor(new FeatureFilePathProvider())))
+        public FeatureExtractor(string featureFolderPath) : this(new FeatureDescriptionExtractor(), new ScenarioExtrator(new GivenWhenThensExtractor(featureFolderPath)))
         {
         }
 

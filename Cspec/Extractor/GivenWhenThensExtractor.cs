@@ -9,11 +9,11 @@ namespace Cspec.Extractor
 
     public class GivenWhenThensExtractor : IExtractGivenWhenThens
     {
-        private readonly IGetFeatureFilesPath featuresConfig;
+        private readonly string featuresFolderPath;
 
-        public GivenWhenThensExtractor(IGetFeatureFilesPath featuresConfig)
+        public GivenWhenThensExtractor(string featuresFolderPath)
         {
-            this.featuresConfig = featuresConfig;
+            this.featuresFolderPath = featuresFolderPath;
         }
 
         public IEnumerable<string> GetGivenWhenThens(string methodNameContainingGivenWhenThens, IEnumerable<Type> allDerivationsOfFeature)
@@ -68,7 +68,7 @@ namespace Cspec.Extractor
 
         private IEnumerable<string> GetCsFilePaths(IEnumerable<Type> derivationsClassNames)
         {
-            var featureFilesRootPath = this.featuresConfig.FeatureFilesRootPath ?? @"..\..\Features";
+            var featureFilesRootPath = this.featuresFolderPath ?? @"..\..\Features";
             Console.WriteLine("Using path for features: " + featureFilesRootPath);
 
             var sourceFiles = derivationsClassNames
