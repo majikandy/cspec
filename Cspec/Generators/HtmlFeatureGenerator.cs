@@ -97,8 +97,9 @@ namespace Cspec.Generators
         {
             WriteCriterionDescription(writer, criterion);
 
-            writer.AddAttribute(HtmlTextWriterAttribute.Id, "criterion-collapser-" + criterionCollapserCounter++);
-            writer.OpenDiv("criterion");
+            writer.AddAttribute(HtmlTextWriterAttribute.Id, "criterion-collapser-" + criterionCollapserCounter);
+            writer.OpenDiv("collapse criterion");
+            criterionCollapserCounter++;
 
             foreach (var scenario in criterion)
             {
@@ -117,7 +118,10 @@ namespace Cspec.Generators
             writer.OpenTag(HtmlTextWriterTag.Strong, string.Empty);
             writer.OpenTag(HtmlTextWriterTag.Div, string.Empty, "criterion-description");
             writer.AddAttribute(HtmlTextWriterAttribute.Href, "#criterion-collapser-" + criterionCollapserCounter);
-            writer.WriteTag(HtmlTextWriterTag.A, "-{0}".With(criterion.Key));
+            writer.AddAttribute("aria-controls", "criterion-collapser-" + criterionCollapserCounter);
+            writer.AddAttribute("data-toggle", "collapse");
+            writer.AddAttribute("aria-expanded", "false");
+            writer.WriteTag(HtmlTextWriterTag.A, "- {0}".With(criterion.Key));
             writer.CloseTag();
             writer.CloseTag();
         }
@@ -126,7 +130,7 @@ namespace Cspec.Generators
         {
             writer.WriteTag(
                 HtmlTextWriterTag.Div,
-                "--> {0}".With(criterionInfo.TestMethodName.WithSpacesInsteadOfUnderscores()),
+                "--> (method) {0}".With(criterionInfo.TestMethodName.WithSpacesInsteadOfUnderscores()),
                 "test-method-name");
         }
 
@@ -136,7 +140,7 @@ namespace Cspec.Generators
 
             foreach (var step in criterionInfo.GivenWhenThens)
             {
-                writer.WriteTag(HtmlTextWriterTag.Div, "----> {0}".With(step), "step");
+                writer.WriteTag(HtmlTextWriterTag.Div, "----> {0}".With(step.ToCapitalisedSentence()), "step");
             }
 
             writer.CloseTag();

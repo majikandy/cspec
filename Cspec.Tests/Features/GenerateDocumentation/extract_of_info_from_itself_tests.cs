@@ -31,7 +31,7 @@ namespace Cspec.Tests.Features.GenerateDocumentation
         public void should_show_you_can_have_multiple_tests_per_scenario()
         {
             this.when_without_a_given_and_a_param_of(3);
-            this.then_only_exists_to_check_docuementation_extraction_works();
+            this.then_only_exists_to_check_documentation_extraction_works();
         }
 
         [TestMethod, Description("something not required")]
@@ -44,7 +44,7 @@ namespace Cspec.Tests.Features.GenerateDocumentation
         {
         }
 
-        private void then_only_exists_to_check_docuementation_extraction_works()
+        private void then_only_exists_to_check_documentation_extraction_works()
         {    
         }
 
@@ -104,7 +104,7 @@ namespace Cspec.Tests.Features.GenerateDocumentation
             Assert.AreEqual(thirdCriterion.Name, "it builds the FeaturesInfo from the attributed source code");
             Assert.AreEqual(thirdCriterion.TestMethodName, "should_show_you_can_have_multiple_tests_per_scenario");
             Assert.AreEqual(thirdCriterion.GivenWhenThens.First(), "when without a given and a param of(3)");
-            Assert.AreEqual(thirdCriterion.GivenWhenThens.Second(), "then only exists to check docuementation extraction works");
+            Assert.AreEqual(thirdCriterion.GivenWhenThens.Second(), "then only exists to check documentation extraction works");
         }
 
         private static void CheckPendingCriteria(List<string> pendingCriteria)
@@ -144,7 +144,7 @@ Scenario: should build from attributed test code
 
 Scenario: should show you can have multiple tests per scenario
     When without a given and a param of(3)
-    Then only exists to check docuementation extraction works
+    Then only exists to check documentation extraction works
 
 @ignore @pending
 Scenario: a pending scenario
@@ -181,34 +181,42 @@ Scenario: ignored test should appear as pending
                 </div>
                 <div class=""criteria text-success"">
                     <h4>Current</h4>
-                    <strong><div class=""criterion-description""><a href=""#criterion-collapser-1"">-matches tests within classes matching the criteria name without need for description attribute</a></div></strong>
-                    <div id=""criterion-collapser-1"" class=""criterion"">
+                    <strong>
+                        <div class=""criterion-description"">
+                            <a href=""#criterion-collapser-1"" aria-controls=""criterion-collapser-1"" data-toggle=""collapse"" aria-expanded=""false"">- matches tests within classes matching the criteria name without need for description attribute</a> 
+                        </div>
+                    </strong>
+                    <div id=""criterion-collapser-1"" class=""collapse criterion"">
                         <div class=""scenario"">
-                            <div class=""test-method-name"">--> a test covering criteria specified in this class name</div>
+                            <div class=""test-method-name"">--> (method) a test covering criteria specified in this class name</div>
                             <div class=""givenWhenThens"">
-                                <div class=""step"">----> given</div>
-                                <div class=""step"">----> when</div>
-                                <div class=""step"">----> then</div>
+                                <div class=""step"">----> Given</div>
+                                <div class=""step"">----> When</div>
+                                <div class=""step"">----> Then</div>
                             </div>
                         </div>
                     </div>
-                    <strong><div class=""criterion-description""><a href=""#criterion-collapser-2"">-it builds the FeaturesInfo from the attributed source code</a></div></strong>
-                    <div id=""criterion-collapser-2"" class=""criterion"">
+                    <strong>
+                        <div class=""criterion-description"">
+                            <a href=""#criterion-collapser-2""  aria-controls=""criterion-collapser-2"" data-toggle=""collapse"" aria-expanded=""false"">- it builds the FeaturesInfo from the attributed source code</a>
+                        </div>
+                    </strong>
+                    <div id=""criterion-collapser-2"" class=""collapse criterion"">
                         <div class=""scenario"">
-                            <div class=""test-method-name"">--> should build from attributed test code</div>
+                            <div class=""test-method-name"">--> (method) should build from attributed test code</div>
                             <div class=""givenWhenThens"">
-                                <div class=""step"">----> given current assembly</div>
-                                <div class=""step"">----> when extracting features</div>
-                                <div class=""step"">----> then I should see a representation of this feature</div>
-                                <div class=""step"">----> then I should be able to produce this feature in gherkin</div>
-                                <div class=""step"">----> then I should be able to produce this feature in html</div>
+                                <div class=""step"">----> Given current assembly</div>
+                                <div class=""step"">----> When extracting features</div>
+                                <div class=""step"">----> Then I should see a representation of this feature</div>
+                                <div class=""step"">----> Then I should be able to produce this feature in gherkin</div>
+                                <div class=""step"">----> Then I should be able to produce this feature in html</div>
                             </div>
                         </div>
                         <div class=""scenario"">
-                            <div class=""test-method-name"">--> should show you can have multiple tests per scenario</div>
+                            <div class=""test-method-name"">--> (method) should show you can have multiple tests per scenario</div>
                             <div class=""givenWhenThens"">
-                                <div class=""step"">----> when without a given and a param of(3)</div>
-                                <div class=""step"">----> then only exists to check docuementation extraction works</div>
+                                <div class=""step"">----> When without a given and a param of(3)</div>
+                                <div class=""step"">----> Then only exists to check documentation extraction works</div>
                             </div>
                         </div>
                     </div>
