@@ -10,6 +10,8 @@ namespace Cspec.Generators
 
     public class HtmlFeatureGenerator : GeneratorBase
     {
+        private int criterionCollapserCounter = 1;
+
         public override string Build(IEnumerable<FeatureInfo> features)
         {
             var stringWriter = new StringWriter();
@@ -93,22 +95,30 @@ namespace Cspec.Generators
 
         private void WriteCriterion(HtmlTextWriter writer, IGrouping<string, CriteriaInfo> criterion)
         {
+            WriteCriterionDescription(writer, criterion);
+
+            writer.AddAttribute(HtmlTextWriterAttribute.Id, "criterion-collapser-" + criterionCollapserCounter++);
             writer.OpenDiv("criterion");
-            
-            writer.OpenTag(HtmlTextWriterTag.Strong, string.Empty);
-            writer.WriteTag(HtmlTextWriterTag.Div, "-{0}".With(criterion.Key), "criterion-description");
-            writer.CloseTag();
 
             foreach (var scenario in criterion)
             {
                 writer.OpenDiv("scenario");
-
                 this.WriteTestMethodName(writer, scenario);
                 this.WriteGivenWhenThens(writer, scenario);
 
                 writer.RenderEndTag();
             }
 
+            writer.CloseTag();
+        }
+
+        private void WriteCriterionDescription(HtmlTextWriter writer, IGrouping<string, CriteriaInfo> criterion)
+        {
+            writer.OpenTag(HtmlTextWriterTag.Strong, string.Empty);
+            writer.OpenTag(HtmlTextWriterTag.Div, string.Empty, "criterion-description");
+            writer.AddAttribute(HtmlTextWriterAttribute.Href, "#criterion-collapser-" + criterionCollapserCounter);
+            writer.WriteTag(HtmlTextWriterTag.A, "-{0}".With(criterion.Key));
+            writer.CloseTag();
             writer.CloseTag();
         }
 

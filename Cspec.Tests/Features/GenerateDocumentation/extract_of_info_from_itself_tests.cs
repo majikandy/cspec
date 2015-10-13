@@ -1,6 +1,7 @@
 namespace Cspec.Tests.Features.GenerateDocumentation
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
 
@@ -180,8 +181,8 @@ Scenario: ignored test should appear as pending
                 </div>
                 <div class=""criteria text-success"">
                     <h4>Current</h4>
-                    <div class=""criterion"">
-                        <strong><div class=""criterion-description"">-matches tests within classes matching the criteria name without need for description attribute</div></strong>
+                    <strong><div class=""criterion-description""><a href=""#criterion-collapser-1"">-matches tests within classes matching the criteria name without need for description attribute</a></div></strong>
+                    <div id=""criterion-collapser-1"" class=""criterion"">
                         <div class=""scenario"">
                             <div class=""test-method-name"">--> a test covering criteria specified in this class name</div>
                             <div class=""givenWhenThens"">
@@ -191,8 +192,8 @@ Scenario: ignored test should appear as pending
                             </div>
                         </div>
                     </div>
-                    <div class=""criterion"">
-                        <strong><div class=""criterion-description"">-it builds the FeaturesInfo from the attributed source code</div></strong>
+                    <strong><div class=""criterion-description""><a href=""#criterion-collapser-2"">-it builds the FeaturesInfo from the attributed source code</a></div></strong>
+                    <div id=""criterion-collapser-2"" class=""criterion"">
                         <div class=""scenario"">
                             <div class=""test-method-name"">--> should build from attributed test code</div>
                             <div class=""givenWhenThens"">
@@ -228,6 +229,8 @@ Scenario: ignored test should appear as pending
     </div>
 </div>
 ";
+
+            File.WriteAllText(@"c:\temp\cspec.features.html", expectedHtml);
 
             Assert.AreEqual(
                 new HtmlFeatureGenerator().Build(this.extractedFeatures), 

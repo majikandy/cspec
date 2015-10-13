@@ -47,9 +47,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Cspec\Cspec.csproj">
       <Project>{ec7c7d71-1c21-470b-93b9-0b44d0f20a77}</Project>
       <Name>Cspec</Name>

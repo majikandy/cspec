@@ -1,18 +1,3 @@
-Feature: Get outbound messages
-
-In order to keep up to date
-As a client
-I want see what messages I have available to me
-
-@ignore @pending
-Scenario: returns unread message list
-
-@ignore @pending
-Scenario: each item shows how to retrieve the full message
-
-@ignore @pending
-Scenario: can also return read messages if desired
-
 Feature: Example
 
 In order to see how to use the Cspec framework
