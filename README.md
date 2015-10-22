@@ -21,15 +21,15 @@ A common scenario I have encountered is when you take a feature file with given 
 
 The business owner just wanted to describe the feature, they don't want all the details of all the test cases and scenarios, just confidence that it's covered.
 
-There is another way
+#There is another way
 
 Let the testers and developers be testers and developers s and take responsibility for the scenarios that cover simply bullet points defined with the product owner or BA.
 
-Take this example
+#Take this example
 
-In order to keep my data private
-As a customer
-I want any personal details behind a login area
+ In order to keep my data private
+ As a customer
+ I want any personal details behind a login area
 
 Story is complete when 
 - there is a login box where a signup up user can log in
@@ -116,18 +116,22 @@ Well, almost. Add a test somewhere with the following code and stick it in the b
      //or
      new HtmlFeatureGenerator().Build();
 
-There is also an exe provided in the runner folder with the nuget package - this is really useful for running on a build server like teamcity or if you prefer for there not to be an extra test.
+If using a unit test to generate the report, it needs to know where the source files are as it doesn't use reflection, so if they aren't in \Features from the acceptance test project, then you'll need to provide this path in the app.config for that project
+
+    <appSettings>
+      <add key="featureFilesRootPath" value="relative path from output folder here"/>
+    </appSettings>
+
+#Continuous Integration Server
+
+There is also an exe provided in the /runner folder with the nuget package - this is really useful for running on a build server like Teamcity - you can then add a report tab for the output report and now your documentation is live with your builds.
 
     C:\Projects\Tenkai\cspec\Cspec.Generator\bin\Release>Cspec.Generator.exe
     Usage:
-     cspec.generator.exe <report type> <assembly file path> <output file path>
+     cspec.generator.exe <report type> <assembly file path> <features folder location> <output file path>
     eg. 
-     cspec.generator.exe HTML bin\release\AcceptanceTests.dll Docs\Features.html
+     cspec.generator.exe HTML bin\release\AcceptanceTests.dll \Features Docs\Features.html
 
-The exe generator needs to know where the source files are as it doesn't use reflection, so if they aren't in \Features from where you are running the generator then you'll need to provide this path in the cspec.generator.exe.config file
 
-    <appSettings>
-      <add key="featureFilesRootPath" value="path here"/>
-    </appSettings>
    
 
