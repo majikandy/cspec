@@ -27,9 +27,9 @@ Let the testers and developers be testers and developers s and take responsibili
 
 #Take this example
 
- In order to keep my data private
- As a customer
- I want any personal details behind a login area
+In order to keep my data private
+As a customer
+I want any personal details behind a login area
 
 Story is complete when 
 - there is a login box where a signup up user can log in
