@@ -76,9 +76,9 @@ This *MUST* inherit from the Feature marker class. This is to enforce test organ
 The marker class has the attributes that make this recognised as a feature as well as the actual documentation.
 
      using Cspec.Framework;
-     [In order to("keep my data private")]
-     [As a("customer")]
-     [I want("I want any personal data behind a login area")]
+     [In_order_to("keep my data private")]
+     [As_a("customer")]
+     [I_want("I want any personal data behind a login area")]
  
      [Criteria(new []{ 
        "there is a login box where a signed up user can log in",
