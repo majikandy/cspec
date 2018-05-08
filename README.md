@@ -1,6 +1,6 @@
-## CSpec ##
+## CSpec 
 
-####nuget packages
+#### nuget packages 
 - nunit: Install-Package cspec
 - mstest: Install-Package cspec.mstest
  
@@ -9,7 +9,7 @@
 - Use the full power of your favourite c# refactoring tools
 - Keep the documentation clean
 
-### How is this achieved? ###
+### How is this achieved? 
 
 It's all C#, and it's not driven by gherkin! It's simpler. It's bullet points to define the acceptance criteria. 
 
@@ -21,11 +21,11 @@ A common scenario I have encountered is when you take a feature file with given 
 
 The business owner just wanted to describe the feature, they don't want all the details of all the test cases and scenarios, just confidence that it's covered.
 
-#There is another way
+# There is another way 
 
 Let the testers and developers be testers and developers s and take responsibility for the scenarios that cover simply bullet points defined with the product owner or BA.
 
-#Take this example
+# Take this example
 
     In order to keep my data private
     As a customer
@@ -40,7 +40,7 @@ This definition of the features is succint and accurate, why deviate from it?
 
 This is why I made cspec, to keep business level conversations with the busines and keep Given When Then with the coders and the testers. 
 
-#But where's my Given When Then ? 
+# But where's my Given When Then ? 
 
 Don't worry,it's still GWT, you just write it in refactorable code, and the documentation is generated rather that it being the starting point
 
@@ -50,13 +50,13 @@ I love cucumber with it's simplicity of the business language features files in 
 
 This upfront of defining the steps in too much detail prior to automating is the cause of the problem rather than the tooling.
 
-##The real world don't talk GWT to talk, so why do we do it in software ?
+## The real world don't talk GWT to talk, so why do we do it in software ?
 
 Because it is expressive! That's why we still need it, we just need it a fraction later in the process.
 
 CSpec is built with a specific process in mind and that process is bullet points withe product owners, Scenarios with developers and testers 
 
-#Show me the code
+# Show me the code
 
 So, your tests are no different to what you know now, they are simple NUnit Tests. With one addition, a Description attribute to show which bullet point from the features that you are covering with that test (or tests)
 
@@ -122,7 +122,7 @@ If using a unit test to generate the report, it needs to know where the source f
       <add key="featureFilesRootPath" value="relative path from output folder here"/>
     </appSettings>
 
-#Continuous Integration Server
+# Continuous Integration Server
 
 There is also an exe provided in the /runner folder with the nuget package - this is really useful for running on a build server like Teamcity - you can then add a report tab for the output report and now your documentation is live with your builds.
 
@@ -131,7 +131,3 @@ There is also an exe provided in the /runner folder with the nuget package - thi
      cspec.generator.exe <report type> <assembly file path> <features folder location> <output file path>
     eg. 
      cspec.generator.exe HTML bin\release\AcceptanceTests.dll \Features Docs\Features.html
-
-
-   
-
