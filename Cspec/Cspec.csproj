@@ -1,96 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EC7C7D71-1C21-470B-93B9-0B44D0F20A77}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>net9.0</TargetFramework>
     <RootNamespace>Cspec</RootNamespace>
     <AssemblyName>Cspec</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="HtmlTextWriter" Version="3.0.1" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Common\EnumerableExtensions.cs" />
-    <Compile Include="Extractor\CompareCriteriaByFeatureName.cs" />
-    <Compile Include="Extractor\CriteriaInfo.cs" />
-    <Compile Include="Extractor\CriteriaNotSpecifiedException.cs" />
-    <Compile Include="Extractor\FeatureDescriptionExtractor.cs" />
-    <Compile Include="Extractor\FeatureFilePathProvider.cs" />
-    <Compile Include="Generators\GeneratorBase.cs" />
-    <Compile Include="Generators\GherkinFeatureGenerator.cs" />
-    <Compile Include="Extractor\GivenWhenThensExtractor.cs" />
-    <Compile Include="Common\HtmlTextWriterExtensions.cs" />
-    <Compile Include="Extractor\IExtractFeatureDescription.cs" />
-    <Compile Include="Extractor\IExtractGivenWhenThens.cs" />
-    <Compile Include="Extractor\IExtractScenarios.cs" />
-    <Compile Include="Generators\IGenerateFeatures.cs" />
-    <Compile Include="Extractor\IGetFeatureFilesPath.cs" />
-    <Compile Include="Extractor\ScenarioExtrator.cs" />
-    <Compile Include="Extractor\CspecException.cs" />
-    <Compile Include="Framework\As_aAttribute.cs" />
-    <Compile Include="Extractor\FeatureInfo.cs" />
-    <Compile Include="Extractor\FeatureExtractor.cs" />
-    <Compile Include="Generators\HtmlFeatureGenerator.cs" />
-    <Compile Include="Framework\FeatureAttribute.cs" />
-    <Compile Include="Framework\IAcceptanceAttribute.cs" />
-    <Compile Include="Framework\In_order_toAttribute.cs" />
-    <Compile Include="Framework\I_wantAttribute.cs" />
-    <Compile Include="Framework\PendingFeaturesAttribue.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Common\StringExtensions.cs" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Cspec.nuspec" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <PropertyGroup>
-    <PostBuildEvent>$(SolutionDir)\.nuget\nuget.exe pack -OutputDirectory ..\..\ $(ProjectPath)</PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

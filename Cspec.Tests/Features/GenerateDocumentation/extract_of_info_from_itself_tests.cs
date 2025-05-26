@@ -16,7 +16,7 @@ namespace Cspec.Tests.Features.GenerateDocumentation
         private IEnumerable<FeatureInfo> extractedFeatures;
 
         [Test(Description = "it builds the FeaturesInfo from the attributed source code")]
-        public void should_build_from_attributed_test_code ()
+        public void should_build_from_attributed_test_code()
         {
             this.given_current_assembly();
             this.when_extracting_features();
@@ -37,13 +37,13 @@ namespace Cspec.Tests.Features.GenerateDocumentation
         {
         }
 
-        [Ignore, Test(Description = "ignored test should appear as pending")]
+        [Ignore("Test for documentation purposes"), Test(Description = "ignored test should appear as pending")]
         public void ignore_test_appears_as_pending()
         {
         }
 
         private void then_only_exists_to_check_docuementation_extraction_works()
-        {    
+        {
         }
 
         private void when_without_a_given_and_a_param_of(int onlyUsedToProveTest)
@@ -80,29 +80,29 @@ namespace Cspec.Tests.Features.GenerateDocumentation
 
             var firstCriterion = criteria.First();
 
-            Assert.That(firstCriterion.Name, Is.EqualTo("matches tests within classes matching the criteria name without need for description attribute"));
-            Assert.That(firstCriterion.TestMethodName, Is.EqualTo("a_test_covering_criteria_specified_in_this_class_name"));
-            Assert.That(firstCriterion.GivenWhenThens.First(), Is.EqualTo("given"));
-            Assert.That(firstCriterion.GivenWhenThens.Second(), Is.EqualTo("when"));
-            Assert.That(firstCriterion.GivenWhenThens.Third(), Is.EqualTo("then"));
+            Assert.That(firstCriterion.Name, Is.EqualTo("it builds the FeaturesInfo from the attributed source code"));
+            Assert.That(firstCriterion.TestMethodName, Is.EqualTo("should_build_from_attributed_test_code"));
+
+            Assert.That(firstCriterion.GivenWhenThens.First(), Is.EqualTo("given current assembly"));
+            Assert.That(firstCriterion.GivenWhenThens.Second(), Is.EqualTo("when extracting features"));
+            Assert.That(firstCriterion.GivenWhenThens.Third(), Is.EqualTo("then I should see a representation of this feature"));
+            Assert.That(firstCriterion.GivenWhenThens.Fourth(), Is.EqualTo("then I should be able to produce this feature in gherkin"));
+            Assert.That(firstCriterion.GivenWhenThens.Fifth(), Is.EqualTo("then I should be able to produce this feature in html"));
 
             var secondCriterion = criteria.Second();
 
             Assert.That(secondCriterion.Name, Is.EqualTo("it builds the FeaturesInfo from the attributed source code"));
-            Assert.That(secondCriterion.TestMethodName, Is.EqualTo("should_build_from_attributed_test_code"));
-
-            Assert.That(secondCriterion.GivenWhenThens.First(), Is.EqualTo("given current assembly"));
-            Assert.That(secondCriterion.GivenWhenThens.Second(), Is.EqualTo("when extracting features"));
-            Assert.That(secondCriterion.GivenWhenThens.Third(), Is.EqualTo("then I should see a representation of this feature"));
-            Assert.That(secondCriterion.GivenWhenThens.Fourth(), Is.EqualTo("then I should be able to produce this feature in gherkin"));
-            Assert.That(secondCriterion.GivenWhenThens.Fifth(), Is.EqualTo("then I should be able to produce this feature in html"));
+            Assert.That(secondCriterion.TestMethodName, Is.EqualTo("should_show_you_can_have_multiple_tests_per_scenario"));
+            Assert.That(secondCriterion.GivenWhenThens.First(), Is.EqualTo("when without a given and a param of(3)"));
+            Assert.That(secondCriterion.GivenWhenThens.Second(), Is.EqualTo("then only exists to check docuementation extraction works"));
 
             var thirdCriterion = criteria.Third();
 
-            Assert.That(thirdCriterion.Name, Is.EqualTo("it builds the FeaturesInfo from the attributed source code"));
-            Assert.That(thirdCriterion.TestMethodName, Is.EqualTo("should_show_you_can_have_multiple_tests_per_scenario"));
-            Assert.That(thirdCriterion.GivenWhenThens.First(), Is.EqualTo("when without a given and a param of(3)"));
-            Assert.That(thirdCriterion.GivenWhenThens.Second(), Is.EqualTo("then only exists to check docuementation extraction works"));
+            Assert.That(thirdCriterion.Name, Is.EqualTo("matches tests within classes matching the criteria name without need for description attribute"));
+            Assert.That(thirdCriterion.TestMethodName, Is.EqualTo("a_test_covering_criteria_specified_in_this_class_name"));
+            Assert.That(thirdCriterion.GivenWhenThens.First(), Is.EqualTo("given"));
+            Assert.That(thirdCriterion.GivenWhenThens.Second(), Is.EqualTo("when"));
+            Assert.That(thirdCriterion.GivenWhenThens.Third(), Is.EqualTo("then"));
         }
 
         private static void CheckPendingCriteria(List<string> pendingCriteria)
@@ -128,11 +128,6 @@ In order to see a nice output
 As a dev team member
 I want to extract features from the source code
 
-Scenario: a test covering criteria specified in this class name
-    Given
-    When
-    Then
-
 Scenario: should build from attributed test code
     Given current assembly
     When extracting features
@@ -143,6 +138,11 @@ Scenario: should build from attributed test code
 Scenario: should show you can have multiple tests per scenario
     When without a given and a param of(3)
     Then only exists to check docuementation extraction works
+
+Scenario: a test covering criteria specified in this class name
+    Given
+    When
+    Then
 
 @ignore @pending
 Scenario: a pending scenario
@@ -155,7 +155,7 @@ Scenario: ignored test should appear as pending
 
 ";
             Assert.That(
-                new GherkinFeatureGenerator().Build(this.extractedFeatures), 
+                new GherkinFeatureGenerator().Build(this.extractedFeatures),
                 Is.EqualTo(expectedGherkin));
         }
 
@@ -180,17 +180,6 @@ Scenario: ignored test should appear as pending
                 <div class=""criteria text-success"">
                     <h4>Current</h4>
                     <div class=""criterion"">
-                        <strong><div class=""criterion-description"">-matches tests within classes matching the criteria name without need for description attribute</div></strong>
-                        <div class=""scenario"">
-                            <div class=""test-method-name"">--> a test covering criteria specified in this class name</div>
-                            <div class=""givenWhenThens"">
-                                <div class=""step"">----> given</div>
-                                <div class=""step"">----> when</div>
-                                <div class=""step"">----> then</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=""criterion"">
                         <strong><div class=""criterion-description"">-it builds the FeaturesInfo from the attributed source code</div></strong>
                         <div class=""scenario"">
                             <div class=""test-method-name"">--> should build from attributed test code</div>
@@ -207,6 +196,17 @@ Scenario: ignored test should appear as pending
                             <div class=""givenWhenThens"">
                                 <div class=""step"">----> when without a given and a param of(3)</div>
                                 <div class=""step"">----> then only exists to check docuementation extraction works</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=""criterion"">
+                        <strong><div class=""criterion-description"">-matches tests within classes matching the criteria name without need for description attribute</div></strong>
+                        <div class=""scenario"">
+                            <div class=""test-method-name"">--> a test covering criteria specified in this class name</div>
+                            <div class=""givenWhenThens"">
+                                <div class=""step"">----> given</div>
+                                <div class=""step"">----> when</div>
+                                <div class=""step"">----> then</div>
                             </div>
                         </div>
                     </div>
@@ -229,7 +229,7 @@ Scenario: ignored test should appear as pending
 ";
 
             Assert.That(
-                new HtmlFeatureGenerator().Build(this.extractedFeatures), 
+                new HtmlFeatureGenerator().Build(this.extractedFeatures),
                 Is.EqualTo(expectedHtml.TrimWhitespaceWithinHtml()));
         }
     }
